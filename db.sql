@@ -48,8 +48,51 @@ CREATE TABLE payments (
     payment_status ENUM('Lunas', 'Belum Lunas', 'Gagal') DEFAULT 'Belum Lunas',
     payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     amount DECIMAL(12, 0) NOT NULL,
-    payment_proof VARCHAR(255) NULL, 
     FOREIGN KEY (id_registration) REFERENCES registration(id_registration) ON DELETE CASCADE
 );
+
+-- 6. Tabel Progress (
+    CREATE TABLE progress (
+    id_progress INT AUTO_INCREMENT PRIMARY KEY,
+    id_user INT NOT NULL,
+    record_date DATE NOT NULL,
+
+    weight DECIMAL(5,2) NULL,        -- Berat badan (kg)
+    height DECIMAL(5,2) NULL,        -- Tinggi badan (cm)
+    body_fat DECIMAL(5,2) NULL,      -- Body fat (%)
+    muscle_mass DECIMAL(5,2) NULL,   -- Massa otot (kg)
+    chest DECIMAL(5,2) NULL,         -- Lingkar dada (cm)
+    waist DECIMAL(5,2) NULL,         -- Lingkar perut (cm)
+    biceps DECIMAL(5,2) NULL,        -- Lingkar lengan (cm)
+    thigh DECIMAL(5,2) NULL,         -- Lingkar paha (cm)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE
+);
+
+-- 7. Tabel Attendance
+CREATE TABLE attendance (
+    id_attendance INT AUTO_INCREMENT PRIMARY KEY,
+    id_user INT NOT NULL,
+    check_in TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    check_out TIMESTAMP NULL,
+    FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE
+);
+
+-- 8. Tabel Dashboard
+CREATE OR REPLACE VIEW dashboard_summary AS
+SELECT
+    (SELECT COUNT(*) FROM users WHERE role='Member' AND is_active=1) AS total_members,
+    (SELECT COUNT(*) FROM packages WHERE status='Aktif') AS active_packages,
+    (SELECT COUNT(*) FROM registration WHERE status='active') AS active_memberships,
+    (SELECT COUNT(*) FROM registration WHERE status='expired') AS expired_memberships,
+    (SELECT COALESCE(SUM(amount),0) FROM payments WHERE payment_status='paid'
+        AND DATE(paid_at) = CURDATE()) AS income_today,
+    (SELECT COALESCE(SUM(amount),0) FROM payments WHERE payment_status='paid'
+        AND YEAR(paid_at)=YEAR(CURDATE()) AND MONTH(paid_at)=MONTH(CURDATE())) AS income_this_month,
+    (SELECT COUNT(*) FROM attendance WHERE DATE(check_in)=CURDATE()) AS checkins_today;
+
+
+
+
 
 
