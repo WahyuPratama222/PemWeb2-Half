@@ -17,7 +17,7 @@ Ikuti langkah ini agar folder proyek kita sinkron dan tidak berantakan:
     ```
 4.  Hubungkan dengan repositori pusat:
     ```bash
-    git remote add origin [https://github.com/WahyuPratama222/PemWeb2-Half.git](https://github.com/WahyuPratama222/PemWeb2-Half.git)
+    git remote add origin https://github.com/WahyuPratama222/PemWeb2-Half.git
     ```
 5.  Ambil data dari branch utama:
     ```bash
