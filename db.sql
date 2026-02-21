@@ -8,7 +8,7 @@ CREATE TABLE users (
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
     gender ENUM('Laki-Laki', 'Wanita'),
-    password VARCHAR(255) NOT NULL, -- Bersih dari teks git
+    password VARCHAR(255) NOT NULL,
     role ENUM('Member', 'Admin') DEFAULT 'Member',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
