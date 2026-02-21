@@ -1,0 +1,24 @@
+RewriteEngine On
+
+# 1. Hilangkan .php dari URL
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.php -f
+RewriteRule ^([^\/]+)/?$ $1.php [L]
+
+# 2. Larang akses browse direktori (agar folder tidak bisa diintip isinya)
+Options -Indexes
+
+# 3. Lindungi file sensitif
+<Files .env>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Proteksi file .sql (tadi kamu mau simpan di model kan?)
+<Files *.sql>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# 4. Melarang akses ke folder config, core, dan models secara total
+RewriteRule ^(config|core|models|actions)/ - [F,L]
