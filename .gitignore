@@ -1,3 +1,30 @@
+# OS & System files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+
+# Environment - JANGAN pernah commit .env asli!
 .env
+
+# Uploads user (foto member, dll)
+/assets/image/uploads/
 /uploads/
+
+# Log files
 *.log
+/logs/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# Cache & temporary
+/cache/
+*.cache
+*.tmp
+
+# Composer (jika nanti dipakai)
+/vendor/

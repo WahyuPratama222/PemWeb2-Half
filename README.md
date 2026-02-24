@@ -1,64 +1,106 @@
 # 🏋️‍♂️ Gym Management System (Native PHP)
 
-Repositori ini adalah sistem manajemen gym yang dibangun menggunakan PHP Native. 
+Sistem manajemen gym berbasis PHP Native — kelola member, paket, absensi, dan keuangan dalam satu platform.
 
 ---
 
-## 🚀 Cara Setup & Kolaborasi (WAJIB DIBACA)
+## 🚀 Setup Lokal (WAJIB DIBACA)
 
-Ikuti langkah ini agar folder proyek kita sinkron dan tidak berantakan:
+### 1. Clone Repository
 
-### 1. Inisialisasi Proyek
-1.  Buat folder baru di dalam `C:/laragon/www/` atau `C:/xampp/htdocs/`.
-2.  Masuk ke dalam folder tersebut melalui Terminal/CMD.
-3.  Pastikan Git sudah terinstall, lalu jalankan perintah:
-    ```bash
-    git init
-    ```
-4.  Hubungkan dengan repositori pusat:
-    ```bash
-    git remote add origin https://github.com/WahyuPratama222/PemWeb2-Half.git
-    ```
-5.  Ambil data dari branch utama:
-    ```bash
-    git pull origin main
-    ```
+```bash
+# Letakkan di dalam folder web server (Laragon/XAMPP)
+cd C:/laragon/www/
+git clone https://github.com/WahyuPratama222/PemWeb2-Half.git
+```
 
-### 2. Aturan Branching (Penting!)
-**Jangan pernah melakukan commit langsung di branch `main`**. Ikuti alur ini:
-1.  Buat branch baru sesuai namamu:
-    ```bash
-    git checkout -b nama-kamu
-    ```
-    *(Contoh: `git checkout -b wahyu`)*
-2.  Lakukan coding dan commit di branch tersebut.
-3.  Jika ingin upload ke GitHub:
-    ```bash
-    git push origin nama-kamu
-    ```
+> **Penting:** Nama folder boleh apa saja, URL akan otomatis menyesuaikan.
 
-### 3. Konfigurasi Environment & DB
-1.  Import file **`db.sql`** ke phpMyAdmin (Nama DB: `gymsystem`).
-2.  Cari file **`.env.example`**, lalu **Rename** menjadi **`.env`**.
-3.  Buka file `.env` dan isi password database masing-masing (Isi `DB_PASS` sesuai settingan Laragon/XAMPP-mu).
+### 2. Setup Database
+
+1. Buka **phpMyAdmin** atau **HeidiSQL**
+2. Import file **`db.sql`** → nama database: `gymsystem`
+
+### 3. Setup Environment
+
+```bash
+# Copy file template .env
+cp .env.example .env
+```
+
+Lalu buka `.env` dan isi sesuai pengaturan lokalmu:
+
+```env
+DB_HOST=localhost
+DB_NAME=gymsystem
+DB_USER=root
+DB_PASS=          ← isi password DB-mu di sini
+APP_ENV=development
+```
+
+> **Catatan:** `BASE_URL` tidak perlu diisi — sudah terdeteksi otomatis.
+
+### 4. Jalankan
+
+Akses di browser: `http://localhost/nama-folder-kamu/`
+
+---
+
+## 🌿 Aturan Branching (Penting!)
+
+**Jangan pernah commit langsung ke branch `main`.**
+
+```bash
+# 1. Buat branch dengan namamu
+git checkout -b nama-kamu
+
+# 2. Coding & commit di branch-mu
+git add .
+git commit -m "feat: deskripsi singkat perubahan"
+
+# 3. Push ke GitHub
+git push origin nama-kamu
+```
+
+Setelah selesai, buat **Pull Request** di GitHub untuk di-review sebelum merge ke `main`.
 
 ---
 
 ## 📁 Struktur Folder
-* **`admin/`** : Fitur khusus Administrator.
-* **`member/`** : Fitur khusus Member.
-* **`auth/`** : Proses Login & Logout.
-* **`actions/`** : Pusat logika/query PHP (Insert, Update, Delete).
-* **`config/`** : Pengaturan database.
-* **`core/`** : Otak aplikasi (`init.php`).
-* **`includes/`** : Potongan UI (Header, Footer).
-* **`assets/`** : CSS, JS, dan Gambar.
+
+| Folder      | Fungsi                                           |
+| ----------- | ------------------------------------------------ |
+| `admin/`    | Halaman & fitur khusus Administrator             |
+| `member/`   | Halaman & fitur khusus Member                    |
+| `auth/`     | Login, Logout, Register                          |
+| `actions/`  | Proses POST (insert, update, delete)             |
+| `models/`   | Query database per entitas                       |
+| `config/`   | Konfigurasi koneksi database                     |
+| `core/`     | Bootstrap aplikasi (`init.php`, `functions.php`) |
+| `includes/` | Komponen UI global (`header.php`, `footer.php`)  |
+| `assets/`   | CSS, JS, dan gambar statis                       |
 
 ---
 
-## 🛠 Aturan Koding
-1.  Wajib panggil `require_once '../core/init.php';` di setiap baris pertama file PHP baru.
-2.  Gunakan variabel `$pdo` untuk urusan database.
-3.  Akses file tanpa `.php` di URL (Contoh: `auth/login`).
+## 🛠️ Aturan Koding
+
+1. **Setiap file PHP** wajib diawali dengan:
+   ```php
+   require_once __DIR__ . '/../core/init.php'; // sesuaikan kedalaman path
+   ```
+2. Gunakan **`$pdo`** untuk semua query database (PDO + prepared statements).
+3. Gunakan **`escape()`** untuk output ke HTML, **bukan** `echo $var` langsung.
+4. URL diakses **tanpa `.php`** — sudah dihandle `.htaccess`.
+5. Ikuti format kode sesuai **`.editorconfig`** (indent 4 spasi, UTF-8).
 
 ---
+
+## ⚙️ Variabel Environment (`.env`)
+
+| Variable  | Keterangan                                                        |
+| --------- | ----------------------------------------------------------------- |
+| `DB_HOST` | Host database (default: `localhost`)                              |
+| `DB_NAME` | Nama database                                                     |
+| `DB_USER` | Username database                                                 |
+| `DB_PASS` | Password database                                                 |
+| `APP_ENV` | `development` (error tampil) / `production` (error disembunyikan) |
