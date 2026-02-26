@@ -1,22 +1,31 @@
 <?php
-// Mulai session di semua halaman
-session_start();
 
-// Load Database
+// ================================================================
+// init.php — Bootstrap utama aplikasi
+// Wajib di-require di SETIAP file PHP:
+//   require_once __DIR__ . '/../core/init.php';
+// Sesuaikan jumlah ../ dengan kedalaman folder file tersebut.
+// ================================================================
+
+// ── Session ───────────────────────────────────────────────────────
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// ── Database & Environment ────────────────────────────────────────
+// loadEnv() dipanggil di dalam database.php, $pdo tersedia global setelah ini
 require_once __DIR__ . '/../config/database.php';
 
-// Load Fungsi bantuan
+// ── Fungsi Bantuan ────────────────────────────────────────────────
 require_once __DIR__ . '/functions.php';
 
-// Set Waktu
+// ── Timezone ──────────────────────────────────────────────────────
 date_default_timezone_set('Asia/Jakarta');
 
-// ── Error Reporting berbasis Environment ──────────────────────
-// development : error tampil di layar (memudahkan debugging)
-// production  : error disembunyikan dari user, dicatat di log server
-$app_env = $_ENV['APP_ENV'] ?? 'development';
+// ── Error Reporting ───────────────────────────────────────────────
+$_app_env = $_ENV['APP_ENV'] ?? 'development';
 
-if ($app_env === 'production') {
+if ($_app_env === 'production') {
     error_reporting(0);
     ini_set('display_errors', '0');
     ini_set('log_errors', '1');
@@ -25,23 +34,13 @@ if ($app_env === 'production') {
     ini_set('display_errors', '1');
 }
 
-
-// ── Auto-detect BASE_URL ──────────────────────────────────────
-// Deteksi otomatis agar CSS & link selalu benar di localhost maupun production.
-// Tidak perlu set BASE_URL di .env.
+// ── BASE_URL (auto-detect) ────────────────────────────────────────
 if (!defined('BASE_URL')) {
-    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
-    $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-    // Ambil root folder project dari document root
-    $scriptDir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
-    // Naik ke root project (jika file berada di subfolder seperti auth/, admin/, dll.)
-    $docRoot = str_replace('\\', '/', realpath(__DIR__ . '/..'));
-    $webRoot = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']);
-    $basePath = str_replace($webRoot, '', $docRoot);
-    $basePath = rtrim($basePath, '/') . '/';
+    $protocol  = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $host      = $_SERVER['HTTP_HOST'] ?? 'localhost';
+    $docRoot   = str_replace('\\', '/', realpath(__DIR__ . '/..'));
+    $webRoot   = str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']);
+    $basePath  = rtrim(str_replace($webRoot, '', $docRoot), '/') . '/';
 
     define('BASE_URL', $protocol . '://' . $host . $basePath);
 }
-
-// Buat variabel $base_url agar mudah dipakai di view
-$base_url = BASE_URL;

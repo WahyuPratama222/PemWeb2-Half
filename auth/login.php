@@ -2,15 +2,13 @@
 require_once __DIR__ . '/../core/init.php';
 require_once __DIR__ . '/../layouts/main.php';
 
-if (isset($_SESSION['user'])) {
-    header('Location: ' . BASE_URL . 'index.php');
-    exit;
-}
+// Kalau sudah login, langsung redirect ke dashboard
+redirect_if_logged_in();
 
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = trim($_POST['email'] ?? '');
+    $email    = trim($_POST['email'] ?? '');
     $password = $_POST['password'] ?? '';
 
     if (empty($email) || empty($password)) {
@@ -21,23 +19,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user = $stmt->fetch();
 
         if ($user && password_verify($password, $user['password'])) {
+            // Simpan data user ke session
             $_SESSION['user'] = [
                 'id_user' => $user['id_user'],
-                'name' => $user['name'],
-                'email' => $user['email'],
-                'role' => $user['role'],
+                'name'    => $user['name'],
+                'email'   => $user['email'],
+                'role'    => $user['role'],
             ];
 
-            header('Location: ' . BASE_URL . ($user['role'] === 'Admin' ? 'admin/dashboard.php' : 'index.php'));
-            exit;
+            // Arahkan sesuai role
+            if ($user['role'] === 'Admin') {
+                redirect(BASE_URL . 'admin/dashboard.php');
+            } else {
+                redirect(BASE_URL . 'member/dashboard.php');
+            }
         } else {
             $error = 'Email atau password salah.';
         }
     }
 }
 
-// Pakai render_auth — tanpa navbar & footer
-render_auth('login_view.php', [
+render_auth('auth/login_view.php', [
     'title' => 'Login — Gymku',
     'error' => $error,
 ]);
