@@ -9,18 +9,22 @@
                 <p class="text-white-50 small">Selamat datang kembali 💪</p>
             </div>
 
+            <!-- Flash message (sukses register, dll.) -->
+            <?php show_flash(); ?>
+
             <!-- Card Form -->
             <div class="card bg-secondary bg-opacity-10 border border-secondary shadow">
                 <div class="card-body p-4">
 
                     <?php if (!empty($error)): ?>
                         <div class="alert alert-danger alert-dismissible fade show py-2 small" role="alert">
-                            <i class="bi bi-exclamation-circle me-1"></i> <?= htmlspecialchars($error) ?>
+                            <i class="bi bi-exclamation-circle me-1"></i> <?= escape($error) ?>
                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
                         </div>
                     <?php endif; ?>
 
                     <form method="POST" action="">
+
                         <div class="mb-3">
                             <label class="form-label text-white-50 small">Email</label>
                             <input
@@ -28,10 +32,11 @@
                                 name="email"
                                 class="form-control bg-dark text-white border-secondary"
                                 placeholder="contoh@email.com"
-                                value="<?= htmlspecialchars($_POST['email'] ?? '') ?>"
+                                value="<?= escape($_POST['email'] ?? '') ?>"
                                 required autofocus
                             >
                         </div>
+
                         <div class="mb-4">
                             <label class="form-label text-white-50 small">Password</label>
                             <div class="input-group">
@@ -48,9 +53,11 @@
                                 </button>
                             </div>
                         </div>
+
                         <button type="submit" class="btn btn-warning fw-bold w-100 text-dark">
                             Masuk
                         </button>
+
                     </form>
 
                 </div>

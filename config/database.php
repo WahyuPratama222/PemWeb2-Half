@@ -1,45 +1,83 @@
 <?php
 
-function loadEnv($path) {
+/**
+ * loadEnv() — Membaca file .env dan memasukkan nilainya ke $_ENV
+ * Fix: handle file tidak ditemukan + strip komentar inline (# ...)
+ */
+function loadEnv(string $path): void
+{
     if (!file_exists($path)) {
-        return false; // Berhenti jika file .env tidak ditemukan
+        die(
+            '<div style="font-family:monospace;background:#1e1e1e;color:#f44;padding:2rem;">'
+            . '❌ File <b>.env</b> tidak ditemukan.<br>'
+            . 'Salin <b>.env.example</b> menjadi <b>.env</b> lalu isi nilainya.'
+            . '</div>'
+        );
     }
 
-    // Membaca file per baris, mengabaikan baris kosong
     $lines = file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+
     foreach ($lines as $line) {
-        if (strpos(trim($line), '#') === 0) continue;
-        
-        list($name, $value) = explode('=', $line, 2);
-        $name = trim($name);
+        $line = trim($line);
+
+        // Lewati baris komentar murni (diawali #)
+        if (str_starts_with($line, '#')) continue;
+
+        // Pastikan ada tanda '='
+        if (!str_contains($line, '=')) continue;
+
+        [$name, $value] = explode('=', $line, 2);
+
+        $name  = trim($name);
         $value = trim($value);
-        
-        // Memasukkan variabel ke sistem environment PHP agar bisa diakses global
-        putenv(sprintf('%s=%s', $name, $value));
-        $_ENV[$name] = $value;
+
+        // Buang komentar inline, contoh: localhost  # komentar → localhost
+        if (str_contains($value, '#')) {
+            $value = trim(explode('#', $value, 2)[0]);
+        }
+
+        // Buang tanda kutip jika ada: "nilai" atau 'nilai' → nilai
+        $value = trim($value, '"\'');
+
+        if ($name !== '') {
+            putenv("$name=$value");
+            $_ENV[$name] = $value;
+        }
     }
 }
 
-loadEnv(__DIR__ . '/../.env'); // Menjalankan fungsi loadEnv (lokasi .env ada di luar folder config)
+// ── Jalankan loadEnv ──────────────────────────────────────────
+loadEnv(__DIR__ . '/../.env');
 
-$db_status = ""; // Inisialisasi variabel status agar tidak error "Undefined"
-
+// ── Koneksi PDO ───────────────────────────────────────────────
 try {
-    // Mengambil data kredensial dari file .env
-    $host = $_ENV['DB_HOST'];
-    $db   = $_ENV['DB_NAME'];
-    $user = $_ENV['DB_USER'];
-    $pass = $_ENV['DB_PASS'];
+    $host    = $_ENV['DB_HOST'] ?? 'localhost';
+    $db      = $_ENV['DB_NAME'] ?? '';
+    $user    = $_ENV['DB_USER'] ?? 'root';
+    $pass    = $_ENV['DB_PASS'] ?? '';
+    $charset = 'utf8mb4';
 
-    // Membuat koneksi database menggunakan PDO (PHP Data Objects)
-    $pdo = new PDO("mysql:host=$host;dbname=$db;charset=utf8mb4", $user, $pass);
-    
-    // Mengatur mode error ke Exception agar jika ada query salah, PHP langsung memberitahu lokasinya
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
-    $db_status = "Koneksi Berhasil!"; 
+    $dsn = "mysql:host=$host;dbname=$db;charset=$charset";
+
+    $options = [
+        PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,  // Error jadi Exception
+        PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,        // Fetch default array asosiatif
+        PDO::ATTR_EMULATE_PREPARES   => false,                   // Gunakan prepared statement asli
+    ];
+
+    $pdo = new PDO($dsn, $user, $pass, $options);
+
 } catch (PDOException $e) {
-    // Menangkap error jika koneksi gagal (misal: password salah atau database mati)
-    $db_status = "Koneksi Gagal: " . $e->getMessage();
+    // Tampilkan pesan ramah, sembunyikan detail teknis di production
+    $is_dev = ($_ENV['APP_ENV'] ?? 'development') === 'development';
+
+    $detail = $is_dev
+        ? '<br><small>' . htmlspecialchars($e->getMessage()) . '</small>'
+        : '';
+
+    die(
+        '<div style="font-family:monospace;background:#1e1e1e;color:#f44;padding:2rem;">'
+        . '❌ Koneksi database gagal.' . $detail
+        . '</div>'
+    );
 }
-?>
