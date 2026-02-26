@@ -1,239 +1,25 @@
-/* ============================================================
-   GymSystem — Global Stylesheet
-   Tema: Gradient Ungu Tua + Gold Accent
-   ============================================================ */
-
-/* ── Google Fonts ── */
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
-
-/* ── CSS Variables ── */
-:root {
-  --primary: #7c3aed; /* ungu utama */
-  --primary-dark: #4c1d95; /* ungu sangat gelap */
-  --bg-dark: #1a0533; /* latar belakang gelap */
-  --bg-darker: #0f0120; /* lebih gelap */
-  --accent: #a855f7; /* ungu terang */
-  --gold: #f59e0b; /* aksen gold/amber */
-  --text-muted: rgba(255, 255, 255, 0.55);
-  --gradient: linear-gradient(
-    135deg,
-    var(--bg-darker),
-    var(--bg-dark),
-    #2d1055
-  );
-}
-
-/* ── Base ── */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: "Inter", sans-serif;
-  background-color: #f4f0fb;
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
+    background-color: #212529;
+    overflow-x: hidden;
+    min-height: 100vh;
+
+    /* INI FIXNYA: body jadi flex column, footer otomatis ke bawah */
+    display: flex;
+    flex-direction: column;
 }
 
 main {
-  flex: 1;
+    display: block;
+    width: 100%;
+    flex: 1; /* main mengisi sisa ruang kosong, footer tetap di bawah */
 }
 
-/* ══════════════════════════════════════════
-   NAVBAR
-══════════════════════════════════════════ */
-.navbar-gym {
-  background: var(--gradient);
-  box-shadow: 0 2px 16px rgba(76, 29, 149, 0.45);
-}
-
-.navbar-gym .navbar-brand {
-  font-weight: 700;
-  font-size: 1.35rem;
-  color: #fff !important;
-  letter-spacing: 0.4px;
-}
-
-.navbar-gym .navbar-brand .brand-accent {
-  color: var(--gold);
-}
-
-.navbar-gym .nav-link {
-  color: var(--text-muted) !important;
-  font-weight: 500;
-  padding: 0.45rem 0.8rem !important;
-  border-radius: 6px;
-  transition:
-    background 0.2s,
-    color 0.2s;
-}
-
-.navbar-gym .nav-link:hover,
-.navbar-gym .nav-link.active {
-  color: #fff !important;
-  background: rgba(168, 85, 247, 0.22);
-}
-
-.navbar-gym .navbar-toggler {
-  border-color: rgba(255, 255, 255, 0.25);
-}
-
-.navbar-gym .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255,255,255,0.75)' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-}
-
-/* ── Tombol di navbar ── */
-.btn-nav-login {
-  border: 1.5px solid rgba(255, 255, 255, 0.35);
-  color: #fff;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  padding: 0.35rem 0.9rem;
-  transition:
-    background 0.2s,
-    border-color 0.2s;
-}
-.btn-nav-login:hover {
-  background: rgba(255, 255, 255, 0.12);
-  color: #fff;
-  border-color: #fff;
-}
-
-.btn-nav-register {
-  background: var(--gold);
-  color: #1a0533;
-  font-weight: 600;
-  border: none;
-  border-radius: 8px;
-  font-size: 0.85rem;
-  padding: 0.35rem 0.9rem;
-  transition: opacity 0.2s;
-}
-.btn-nav-register:hover {
-  opacity: 0.85;
-  color: #1a0533;
-}
-
-/* ── Badge role ── */
-.badge-role {
-  font-size: 0.68rem;
-  vertical-align: middle;
-}
-
-/* ══════════════════════════════════════════
-   FOOTER
-══════════════════════════════════════════ */
-.footer-gym {
-  background: var(--gradient);
-  color: var(--text-muted);
-  padding: 1.5rem 0;
-  box-shadow: 0 -2px 16px rgba(76, 29, 149, 0.3);
-}
-
-.footer-gym .footer-brand {
-  font-weight: 700;
-  font-size: 1.1rem;
-  color: #fff;
-}
-
-.footer-gym .footer-brand .brand-accent {
-  color: var(--gold);
-}
-
-.footer-gym a {
-  color: var(--text-muted);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-
-.footer-gym a:hover {
-  color: var(--gold);
-}
-
-.footer-gym .footer-divider {
-  border-color: rgba(255, 255, 255, 0.12);
-  margin: 1rem 0 0.75rem;
-}
-
-/* ══════════════════════════════════════════
-   CARDS & UTILITIES
-══════════════════════════════════════════ */
-.card-gym {
-  border: none;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.12);
-  transition:
-    transform 0.2s,
-    box-shadow 0.2s;
-}
-.card-gym:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 28px rgba(124, 58, 237, 0.22);
-}
-
-.icon-circle {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: rgba(124, 58, 237, 0.12);
-  color: var(--primary);
-  font-size: 1.5rem;
-  margin-bottom: 0.75rem;
-}
-
-.text-primary-gym {
-  color: var(--primary) !important;
-}
-.text-accent-gym {
-  color: var(--accent) !important;
-}
-.text-gold {
-  color: var(--gold) !important;
-}
-
-.btn-primary-gym {
-  background: var(--primary);
-  border: none;
-  color: #fff;
-  font-weight: 600;
-  border-radius: 8px;
-  transition: background 0.2s;
-}
-.btn-primary-gym:hover {
-  background: var(--primary-dark);
-  color: #fff;
-}
-
-.btn-outline-gym {
-  border: 1.5px solid var(--primary);
-  color: var(--primary);
-  font-weight: 600;
-  border-radius: 8px;
-  background: transparent;
-  transition:
-    background 0.2s,
-    color 0.2s;
-}
-.btn-outline-gym:hover {
-  background: var(--primary);
-  color: #fff;
-}
-
-/* Section header */
-.section-title {
-  font-weight: 700;
-  color: var(--primary-dark);
-}
-
-/* Hero gradient text */
-.text-gradient {
-  background: linear-gradient(90deg, var(--primary), var(--gold));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+footer {
+    margin-top: auto; /* backup kalau flex: 1 di main kurang cukup */
 }
