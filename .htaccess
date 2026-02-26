@@ -21,4 +21,4 @@ Options -Indexes
 </Files>
 
 # 4. Melarang akses ke folder config, core, dan models secara total
-RewriteRule ^(config|core|models|actions)/ - [F,L]
+RewriteRule ^(config|core|models|actions|layouts|pages)/ - [F,L]
