@@ -11,5 +11,7 @@
 </head>
 
 <body class="bg-dark">
+    <!-- Header -->
     <?php require_once __DIR__ . '/../components/navbar.php'; ?>
     <main>
+        <!-- Main Content -->
