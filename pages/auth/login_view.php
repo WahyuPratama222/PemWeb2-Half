@@ -5,8 +5,8 @@
             <!-- Logo -->
             <div class="text-center mb-4">
                 <i class="bi bi-trophy-fill text-warning" style="font-size: 2.5rem;"></i>
-                <h4 class="text-white fw-bold mt-2">Masuk ke Gymku</h4>
-                <p class="text-white-50 small">Selamat datang kembali 💪</p>
+                <h4 class="text-white fw-bold mt-2">Masuk ke <span class="text-warning">Gymku</span></h4>
+                <p class="text-white-50 small">Selamat datang kembali!</p>
             </div>
 
             <!-- Flash message (sukses register, dll.) -->
@@ -26,29 +26,20 @@
                     <form method="POST" action="">
 
                         <div class="mb-3">
-                            <label class="form-label text-white-50 small">Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                class="form-control bg-dark text-white border-secondary"
-                                placeholder="contoh@email.com"
-                                value="<?= escape($_POST['email'] ?? '') ?>"
-                                required autofocus
-                            >
+                            <label class="form-label text-warning small">Email</label>
+                            <input type="email" name="email" class="form-control bg-dark text-white border-secondary"
+                                placeholder="contoh@email.com" value="<?= escape($_POST['email'] ?? '') ?>" required
+                                autofocus>
                         </div>
 
                         <div class="mb-4">
-                            <label class="form-label text-white-50 small">Password</label>
+                            <label class="form-label text-warning small">Password</label>
                             <div class="input-group">
-                                <input
-                                    type="password"
-                                    name="password"
-                                    id="passwordInput"
-                                    class="form-control bg-dark text-white border-secondary"
-                                    placeholder="••••••••"
-                                    required
-                                >
-                                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()" tabindex="-1">
+                                <input type="password" name="password" id="passwordInput"
+                                    class="form-control bg-dark text-white border-secondary" placeholder="••••••••"
+                                    required>
+                                <button type="button" class="btn btn-outline-secondary" onclick="togglePassword()"
+                                    tabindex="-1">
                                     <i class="bi bi-eye" id="eyeIcon"></i>
                                 </button>
                             </div>
@@ -73,15 +64,15 @@
 </div>
 
 <script>
-function togglePassword() {
-    const input = document.getElementById('passwordInput');
-    const icon  = document.getElementById('eyeIcon');
-    if (input.type === 'password') {
-        input.type = 'text';
-        icon.classList.replace('bi-eye', 'bi-eye-slash');
-    } else {
-        input.type = 'password';
-        icon.classList.replace('bi-eye-slash', 'bi-eye');
+    function togglePassword() {
+        const input = document.getElementById('passwordInput');
+        const icon = document.getElementById('eyeIcon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
+        }
     }
-}
 </script>
