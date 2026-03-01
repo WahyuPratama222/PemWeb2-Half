@@ -27,7 +27,7 @@ CREATE TABLE packages (
 );
 
 -- 4. Tabel Pendaftaran
-CREATE TABLE registration (
+CREATE TABLE registration ( 
     id_registration INT AUTO_INCREMENT PRIMARY KEY,
     id_user INT NOT NULL,
     id_package INT NOT NULL,
@@ -89,4 +89,8 @@ SELECT
         AND YEAR(payment_date)=YEAR(CURDATE()) AND MONTH(payment_date)=MONTH(CURDATE())) AS income_this_month,
     (SELECT COUNT(*) FROM attendance WHERE DATE(check_in)=CURDATE()) AS checkins_today;
 
-
+INSERT INTO packages (name, price, day_duration, status)
+VALUES
+('Paket Basic',    150000, 30, 'Aktif'),
+('Paket Standard', 300000, 60, 'Aktif'),
+('Paket Premium',  500000, 90, 'Aktif');
