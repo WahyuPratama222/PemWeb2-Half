@@ -8,7 +8,7 @@
                 Selamat datang, <?= escape(current_user()['name']) ?>
             </small>
         </div>
-        <span class="text-white-50"><?= date('d F Y') ?></span>
+        <span class="text-white-50 small"><?= date('d F Y') ?></span>
     </div>
 
     <?php show_flash(); ?>
@@ -86,8 +86,7 @@
                     <div class="d-flex flex-column gap-2">
                         <div class="d-flex justify-content-between border-bottom border-secondary pb-2">
                             <span class="text-white-50 small">Pendapatan</span>
-                            <span
-                                class="fw-bold text-warning"><?= format_rupiah($summary['income_this_month']) ?></span>
+                            <span class="fw-bold text-warning"><?= format_rupiah($summary['income_this_month']) ?></span>
                         </div>
                         <div class="d-flex justify-content-between border-bottom border-secondary pb-2">
                             <span class="text-white-50 small">Paket Tersedia</span>
