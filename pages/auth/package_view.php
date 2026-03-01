@@ -62,8 +62,8 @@
             </ul>
 
             <footer class="pk-actions">
-              <a class="<?= $btnClass; ?>" href="#">
-                Pilih Paket
+              <a class="<?= $btnClass; ?>" href="<?= BASE_URL ?>member/payment/checkout.php?id=<?= $p['id_package'] ?>">
+                Pilih Paket Ini
               </a>
             </footer>
           </article>
