@@ -16,12 +16,12 @@ if (!defined('BASE_URL')) {
 </head>
 
 <body class="bg-dark">
-    <div class="d-flex" style="min-height: 100vh;">
+    <div class="d-flex" style="height: 100vh; overflow: hidden;">
 
         <!-- Sidebar Admin -->
         <?php require_once __DIR__ . '/../components/sidebar_admin.php'; ?>
 
-        <!-- Wrapper kanan: konten + footer -->
-        <div class="d-flex flex-column flex-grow-1 overflow-auto">
-            <main class="flex-grow-1">
+        <!-- Wrapper kanan -->
+        <div class="d-flex flex-column flex-grow-1">
+            <main class="flex-grow-1" style="overflow-y: auto;">
                 <!-- Main Content -->
