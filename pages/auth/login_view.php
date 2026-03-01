@@ -56,7 +56,7 @@
 
             <p class="text-center text-white-50 small mt-3">
                 Belum punya akun?
-                <a href="<?= BASE_URL ?>auth/regist.php" class="text-warning text-decoration-none">Daftar sekarang</a>
+                <a href="<?= BASE_URL ?>controllers/auth/regist.php" class="text-warning text-decoration-none">Daftar sekarang</a>
             </p>
 
         </div>

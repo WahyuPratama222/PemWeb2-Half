@@ -1,5 +1,5 @@
 <!-- Fungsinya untuk menampilkan halaman yang sedang aktif di navbar -->
-<?php $current_page = basename($_SERVER['PHP_SELF']); ?>
+<?php $current_page = basename($_SERVER['PHP_SELF'], '.php'); ?>
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary shadow-sm">
@@ -23,16 +23,16 @@
 
                 <!-- Tombol Login -->
                 <li class="nav-item">
-                    <a class="nav-link btn btn-outline-warning rounded-pill px-3 <?= $current_page === 'login.php' ? 'active text-dark' : '' ?>"
-                        href="<?= BASE_URL ?>auth/login.php">
+                    <a class="nav-link btn btn-outline-warning rounded-pill px-3 <?= $current_page === 'login' ? 'active text-dark' : '' ?>"
+                        href="<?= BASE_URL ?>controllers/auth/login.php">
                         <i class="bi bi-box-arrow-in-right me-1"></i> Login
                     </a>
                 </li>
 
                 <!-- Tombol Regist -->
                 <li class="nav-item">
-                    <a class="nav-link btn btn-outline-warning rounded-pill px-3 <?= $current_page === 'regist.php' ? 'active text-dark' : '' ?>"
-                        href="<?= BASE_URL ?>auth/regist.php">
+                    <a class="nav-link btn btn-outline-warning rounded-pill px-3 <?= $current_page === 'regist' ? 'active text-dark' : '' ?>"
+                        href="<?= BASE_URL ?>controllers/auth/regist.php">
                         <i class="bi bi-person-plus-fill me-1"></i> Regist
                     </a>
                 </li>
