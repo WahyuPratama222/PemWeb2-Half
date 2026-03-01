@@ -3,10 +3,12 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="text-white fw-bold mb-0">Dashboard Admin</h4>
-            <small class="text-white-50">Selamat datang, <?= escape(current_user()['name']) ?> 👋</small>
+            <h4 class="text-warning fw-bold mb-0">Dashboard Admin</h4>
+            <small class="text-white-50">
+                Selamat datang, <?= escape(current_user()['name']) ?>
+            </small>
         </div>
-        <span class="text-white-50 small"><?= date('d F Y') ?></span>
+        <span class="text-white-50"><?= date('d F Y') ?></span>
     </div>
 
     <?php show_flash(); ?>
@@ -72,47 +74,56 @@
 
     </div>
 
-    <!-- Row 2: Pendapatan bulan ini + Paket aktif -->
+    <!-- Row 2: Ringkasan + Aksi Cepat -->
     <div class="row g-3">
 
         <div class="col-md-6">
             <div class="card bg-secondary bg-opacity-10 border border-secondary text-white h-100">
-                <div class="card-body">
-                    <h6 class="text-white-50 mb-3"><i class="bi bi-graph-up me-2"></i>Ringkasan Bulan Ini</h6>
-                    <table class="table table-sm table-dark table-borderless mb-0">
-                        <tr>
-                            <td class="text-white-50">Pendapatan</td>
-                            <td class="text-end fw-bold text-warning"><?= format_rupiah($summary['income_this_month']) ?></td>
-                        </tr>
-                        <tr>
-                            <td class="text-white-50">Paket Tersedia</td>
-                            <td class="text-end fw-bold"><?= $summary['active_packages'] ?> paket aktif</td>
-                        </tr>
-                        <tr>
-                            <td class="text-white-50">Membership Kedaluwarsa</td>
-                            <td class="text-end fw-bold text-danger"><?= $summary['expired_memberships'] ?></td>
-                        </tr>
-                    </table>
+                <div class="card-body p-4">
+                    <h6 class="text-white-50 mb-3">
+                        <i class="bi bi-graph-up me-2"></i>Ringkasan Bulan Ini
+                    </h6>
+                    <div class="d-flex flex-column gap-2">
+                        <div class="d-flex justify-content-between border-bottom border-secondary pb-2">
+                            <span class="text-white-50 small">Pendapatan</span>
+                            <span
+                                class="fw-bold text-warning"><?= format_rupiah($summary['income_this_month']) ?></span>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom border-secondary pb-2">
+                            <span class="text-white-50 small">Paket Tersedia</span>
+                            <span class="fw-bold text-white"><?= $summary['active_packages'] ?> Paket Aktif</span>
+                        </div>
+                        <div class="d-flex justify-content-between pt-1">
+                            <span class="text-white-50 small">Membership Kedaluwarsa</span>
+                            <span class="fw-bold text-danger"><?= $summary['expired_memberships'] ?></span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col-md-6">
             <div class="card bg-secondary bg-opacity-10 border border-secondary text-white h-100">
-                <div class="card-body">
-                    <h6 class="text-white-50 mb-3"><i class="bi bi-lightning-fill me-2"></i>Aksi Cepat</h6>
+                <div class="card-body p-4">
+                    <h6 class="text-white-50 mb-3">
+                        <i class="bi bi-lightning-fill me-2"></i>Aksi Cepat
+                    </h6>
                     <div class="d-grid gap-2">
-                        <a href="<?= BASE_URL ?>admin/members.php" class="btn btn-outline-light btn-sm text-start">
-                            <i class="bi bi-people me-2"></i> Kelola Member
+                        <a href="<?= BASE_URL ?>controllers/admin/members_admin.php"
+                            class="btn btn-outline-warning btn-sm text-start text-white">
+                            <i class="bi bi-people me-2"></i>Kelola Member
                         </a>
-                        <a href="<?= BASE_URL ?>admin/packages.php" class="btn btn-outline-light btn-sm text-start">
-                            <i class="bi bi-tags me-2"></i> Kelola Paket
+                        <a href="<?= BASE_URL ?>controllers/admin/packages_admin.php"
+                            class="btn btn-outline-warning btn-sm text-start text-white">
+                            <i class="bi bi-tags me-2"></i>Kelola Paket
                         </a>
-                        <a href="<?= BASE_URL ?>admin/payments.php" class="btn btn-outline-light btn-sm text-start">
-                            <i class="bi bi-credit-card me-2"></i> Data Pembayaran
+                        <a href="<?= BASE_URL ?>controllers/admin/payments_admin.php"
+                            class="btn btn-outline-warning btn-sm text-start text-white">
+                            <i class="bi bi-credit-card me-2"></i>Data Pembayaran
                         </a>
-                        <a href="<?= BASE_URL ?>admin/attendance.php" class="btn btn-outline-light btn-sm text-start">
-                            <i class="bi bi-calendar-check me-2"></i> Data Absensi
+                        <a href="<?= BASE_URL ?>controllers/admin/attendance_admin.php"
+                            class="btn btn-outline-warning btn-sm text-start text-white">
+                            <i class="bi bi-calendar-check me-2"></i>Data Absensi
                         </a>
                     </div>
                 </div>

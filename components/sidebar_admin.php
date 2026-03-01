@@ -1,0 +1,59 @@
+<?php
+$current_page = basename($_SERVER['PHP_SELF']);
+
+$menu = [
+    ['href' => 'dashboard_admin.php', 'icon' => 'bi-speedometer2', 'label' => 'Dashboard'],
+    ['href' => 'members_admin.php', 'icon' => 'bi-people', 'label' => 'Member'],
+    ['href' => 'packages_admin.php', 'icon' => 'bi-tags', 'label' => 'Paket'],
+    ['href' => 'registrations_admin.php', 'icon' => 'bi-clipboard-check', 'label' => 'Pendaftaran'],
+    ['href' => 'payments_admin.php', 'icon' => 'bi-credit-card', 'label' => 'Pembayaran'],
+    ['href' => 'attendance_admin.php', 'icon' => 'bi-calendar-check', 'label' => 'Absensi'],
+];
+?>
+
+<div class="d-flex flex-column flex-shrink-0 bg-dark border-end border-secondary"
+    style="width: 240px; min-height: 100vh;">
+
+    <!-- Logo -->
+    <a href="<?= BASE_URL ?>controllers/admin/dashboard_admin.php"
+        class="d-flex align-items-center gap-2 px-3 py-4 text-decoration-none border-bottom border-secondary">
+        <i class="bi bi-trophy-fill text-warning fs-5"></i>
+        <span class="text-warning fw-bold fs-5">Gymku</span>
+        <span class="badge bg-warning text-dark ms-auto" style="font-size:.6rem;">Admin</span>
+    </a>
+
+    <!-- Nav Menu -->
+    <ul class="nav nav-pills flex-column px-2 py-3 gap-1 flex-grow-1">
+        <?php foreach ($menu as $item): ?>
+            <?php $is_active = $current_page === $item['href']; ?>
+            <li class="nav-item">
+                <a href="<?= BASE_URL ?>controllers/admin/<?= $item['href'] ?>"
+                    class="nav-link d-flex align-items-center gap-2 <?= $is_active ? 'bg-warning fw-bold' : 'text-white' ?>"
+                    style="<?= $is_active ? 'color: #111827 !important;' : '' ?>">
+                    <i class="bi <?= $item['icon'] ?>"></i>
+                    <?= $item['label'] ?>
+                </a>
+            </li>
+        <?php endforeach; ?>
+    </ul>
+
+    <!-- User info + Logout -->
+    <?php $user = current_user(); ?>
+    <div class="border-top border-secondary p-3">
+        <div class="d-flex align-items-center gap-2 mb-2">
+            <span
+                class="bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold flex-shrink-0"
+                style="width:32px;height:32px;font-size:.8rem;">
+                <?= strtoupper(substr($user['name'], 0, 1)) ?>
+            </span>
+            <div class="overflow-hidden">
+                <div class="text-white small fw-bold text-truncate"><?= escape($user['name']) ?></div>
+                <div class="text-white-50" style="font-size:.7rem;"><?= escape($user['email']) ?></div>
+            </div>
+        </div>
+        <a href="<?= BASE_URL ?>controllers/auth/logout.php" class="btn btn-outline-danger btn-sm w-100">
+            <i class="bi bi-box-arrow-right me-1"></i>Logout
+        </a>
+    </div>
+
+</div>

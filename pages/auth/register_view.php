@@ -5,8 +5,8 @@
             <!-- Logo -->
             <div class="text-center mb-4">
                 <i class="bi bi-trophy-fill text-warning" style="font-size: 2.5rem;"></i>
-                <h4 class="text-white fw-bold mt-2">Buat Akun Gymku</h4>
-                <p class="text-white-50 small">Mulai perjalanan fitnesmu hari ini 💪</p>
+                <h4 class="text-white fw-bold mt-2">Buat Akun <span class="text-warning">Gymku</span></h4>
+                <p class="text-white-50 small">Mulai perjalanan fitnesmu hari ini!</p>
             </div>
 
             <!-- Card Form -->
@@ -25,7 +25,7 @@
 
                         <!-- Nama -->
                         <div class="mb-3">
-                            <label class="form-label text-white-50 small">Nama Lengkap</label>
+                            <label class="form-label text-warning small">Nama Lengkap</label>
                             <input
                                 type="text"
                                 name="name"
@@ -38,7 +38,7 @@
 
                         <!-- Email -->
                         <div class="mb-3">
-                            <label class="form-label text-white-50 small">Email</label>
+                            <label class="form-label text-warning small">Email</label>
                             <input
                                 type="email"
                                 name="email"
@@ -51,9 +51,9 @@
 
                         <!-- Jenis Kelamin -->
                         <div class="mb-3">
-                            <label class="form-label text-white-50 small">Jenis Kelamin</label>
+                            <label class="form-label text-warning small">Jenis Kelamin</label>
                             <select name="gender" class="form-select bg-dark text-white border-secondary" required>
-                                <option value="" disabled <?= empty($old['gender']) ? 'selected' : '' ?>>Pilih jenis kelamin</option>
+                                <option value="" disabled <?= empty($old['gender']) ? 'selected' : '' ?>>Pilih Jenis Kelamin</option>
                                 <option value="Laki-Laki" <?= ($old['gender'] ?? '') === 'Laki-Laki' ? 'selected' : '' ?>>Laki-Laki</option>
                                 <option value="Wanita"    <?= ($old['gender'] ?? '') === 'Wanita'    ? 'selected' : '' ?>>Wanita</option>
                             </select>
@@ -61,7 +61,7 @@
 
                         <!-- Password -->
                         <div class="mb-3">
-                            <label class="form-label text-white-50 small">Password</label>
+                            <label class="form-label text-warning small">Password</label>
                             <div class="input-group">
                                 <input
                                     type="password"
@@ -79,7 +79,7 @@
 
                         <!-- Konfirmasi Password -->
                         <div class="mb-4">
-                            <label class="form-label text-white-50 small">Konfirmasi Password</label>
+                            <label class="form-label text-warning small">Konfirmasi Password</label>
                             <div class="input-group">
                                 <input
                                     type="password"
@@ -100,13 +100,12 @@
                         </button>
 
                     </form>
-
                 </div>
             </div>
 
             <p class="text-center text-white-50 small mt-3">
                 Sudah punya akun?
-                <a href="<?= BASE_URL ?>auth/login.php" class="text-warning text-decoration-none">Login di sini</a>
+                <a href="<?= BASE_URL ?>controllers/auth/login.php" class="text-warning text-decoration-none">Login di sini</a>
             </p>
 
         </div>
