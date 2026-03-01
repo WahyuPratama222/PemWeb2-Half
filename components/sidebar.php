@@ -2,12 +2,12 @@
 $current_page = basename($_SERVER['PHP_SELF']);
 
 $menu = [
-    ['href' => 'dashboard.php',  'icon' => 'bi-speedometer2',    'label' => 'Dashboard'],
-    ['href' => 'members.php',    'icon' => 'bi-people',           'label' => 'Member'],
-    ['href' => 'packages.php',   'icon' => 'bi-tags',             'label' => 'Paket'],
-    ['href' => 'registrations.php','icon'=> 'bi-clipboard-check', 'label' => 'Pendaftaran'],
-    ['href' => 'payments.php',   'icon' => 'bi-credit-card',      'label' => 'Pembayaran'],
-    ['href' => 'attendance.php', 'icon' => 'bi-calendar-check',   'label' => 'Absensi'],
+    ['href' => 'dashboard_admin.php',      'icon' => 'bi-speedometer2',    'label' => 'Dashboard'],
+    ['href' => 'members_admin.php',        'icon' => 'bi-people',           'label' => 'Member'],
+    ['href' => 'packages_admin.php',       'icon' => 'bi-tags',             'label' => 'Paket'],
+    ['href' => 'registrations_admin.php',  'icon' => 'bi-clipboard-check',  'label' => 'Pendaftaran'],
+    ['href' => 'payments_admin.php',       'icon' => 'bi-credit-card',      'label' => 'Pembayaran'],
+    ['href' => 'attendance_admin.php',     'icon' => 'bi-calendar-check',   'label' => 'Absensi'],
 ];
 ?>
 
@@ -15,7 +15,7 @@ $menu = [
      style="width: 240px; min-height: 100vh;">
 
     <!-- Logo -->
-    <a href="<?= BASE_URL ?>admin/dashboard.php"
+    <a href="<?= BASE_URL ?>controllers/admin/dashboard_admin.php"
        class="d-flex align-items-center gap-2 px-3 py-4 text-decoration-none border-bottom border-secondary">
         <i class="bi bi-trophy-fill text-warning fs-5"></i>
         <span class="text-white fw-bold fs-5">Gymku</span>
@@ -26,7 +26,7 @@ $menu = [
     <ul class="nav nav-pills flex-column px-2 py-3 gap-1 flex-grow-1">
         <?php foreach ($menu as $item): ?>
             <li class="nav-item">
-                <a href="<?= BASE_URL ?>admin/<?= $item['href'] ?>"
+                <a href="<?= BASE_URL ?>controllers/admin/<?= $item['href'] ?>"
                    class="nav-link text-white d-flex align-items-center gap-2
                           <?= $current_page === $item['href'] ? 'active bg-warning text-dark fw-bold' : '' ?>">
                     <i class="bi <?= $item['icon'] ?>"></i>
@@ -49,7 +49,7 @@ $menu = [
                 <div class="text-white-50" style="font-size:.7rem;"><?= escape($user['email']) ?></div>
             </div>
         </div>
-        <a href="<?= BASE_URL ?>auth/logout.php" class="btn btn-outline-danger btn-sm w-100">
+        <a href="<?= BASE_URL ?>controllers/auth/logout.php" class="btn btn-outline-danger btn-sm w-100">
             <i class="bi bi-box-arrow-right me-1"></i>Logout
         </a>
     </div>

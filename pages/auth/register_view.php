@@ -94,7 +94,7 @@
                                 </button>
                             </div>
                         </div>
-                        
+
                         <button type="submit" class="btn btn-warning fw-bold w-100 text-dark">
                             Buat Akun
                         </button>
@@ -105,7 +105,7 @@
 
             <p class="text-center text-white-50 small mt-3">
                 Sudah punya akun?
-                <a href="<?= BASE_URL ?>auth/login.php" class="text-warning text-decoration-none">Login di sini</a>
+                <a href="<?= BASE_URL ?>controllers/auth/login.php" class="text-warning text-decoration-none">Login di sini</a>
             </p>
 
         </div>

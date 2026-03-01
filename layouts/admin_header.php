@@ -1,3 +1,8 @@
+<?php
+if (!defined('BASE_URL')) {
+    require_once __DIR__ . '/../core/init.php';
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 
@@ -11,9 +16,9 @@
 </head>
 
 <body class="bg-dark">
-    <div class="d-flex">
         <!-- Sidebar -->
         <?php require_once __DIR__ . '/../components/sidebar.php'; ?>
 
         <!-- Konten Utama -->
-        <main class="flex-grow-1 overflow-auto"></main>
+        <main class="d-flex flex-grow-1 overflow-auto">
+            <!-- Main Content -->

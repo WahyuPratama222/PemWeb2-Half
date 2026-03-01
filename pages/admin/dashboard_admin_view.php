@@ -102,16 +102,16 @@
                 <div class="card-body">
                     <h6 class="text-white-50 mb-3"><i class="bi bi-lightning-fill me-2"></i>Aksi Cepat</h6>
                     <div class="d-grid gap-2">
-                        <a href="<?= BASE_URL ?>admin/members.php" class="btn btn-outline-light btn-sm text-start">
+                        <a href="<?= BASE_URL ?>controllers/admin/members_admin.php" class="btn btn-outline-light btn-sm text-start">
                             <i class="bi bi-people me-2"></i> Kelola Member
                         </a>
-                        <a href="<?= BASE_URL ?>admin/packages.php" class="btn btn-outline-light btn-sm text-start">
+                        <a href="<?= BASE_URL ?>controllers/admin/packages_admin.php" class="btn btn-outline-light btn-sm text-start">
                             <i class="bi bi-tags me-2"></i> Kelola Paket
                         </a>
-                        <a href="<?= BASE_URL ?>admin/payments.php" class="btn btn-outline-light btn-sm text-start">
+                        <a href="<?= BASE_URL ?>controllers/admin/payments_admin.php" class="btn btn-outline-light btn-sm text-start">
                             <i class="bi bi-credit-card me-2"></i> Data Pembayaran
                         </a>
-                        <a href="<?= BASE_URL ?>admin/attendance.php" class="btn btn-outline-light btn-sm text-start">
+                        <a href="<?= BASE_URL ?>controllers/admin/attendance_admin.php" class="btn btn-outline-light btn-sm text-start">
                             <i class="bi bi-calendar-check me-2"></i> Data Absensi
                         </a>
                     </div>
