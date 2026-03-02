@@ -3,8 +3,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
 
 $menu = [
     ['href' => 'dashboard_admin.php', 'icon' => 'bi-speedometer2', 'label' => 'Dashboard'],
-    ['href' => 'members_admin.php', 'icon' => 'bi-people', 'label' => 'Member'],
-    ['href' => 'registrations_admin.php', 'icon' => 'bi-clipboard-check', 'label' => 'Registrations'],
+    // merged "member" and "registrations" into a single page
+    // the href points to registrations_admin.php which now acts as the member list
+    ['href' => 'registrations_admin.php', 'icon' => 'bi-people', 'label' => 'Member'],
     ['href' => 'packages_admin.php', 'icon' => 'bi-tags', 'label' => 'Paket'],
     ['href' => 'payments_admin.php', 'icon' => 'bi-credit-card', 'label' => 'Pembayaran'],
     ['href' => 'attendance_admin.php', 'icon' => 'bi-calendar-check', 'label' => 'Absensi'],
