@@ -5,7 +5,7 @@
         <div>
             <h4 class="text-warning fw-bold mb-0">Progress Member</h4>
             <small class="text-white-50">
-                Selamat datang, <?= escape(current_user()['name']) ?>
+                Lihat semua progressmu disini
             </small>
         </div>
         <span class="text-white-50"><?= date('d F Y') ?></span>
