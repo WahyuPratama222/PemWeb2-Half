@@ -81,16 +81,11 @@
                                 <?php endif; ?>
                             </ul>
 
-                            <!-- Tombol Daftar -->
-                            <button class="btn fw-bold w-100 <?= $is_featured ? 'btn-warning text-dark' : 'btn-outline-warning' ?>"
-                                    data-bs-toggle="modal"
-                                    data-bs-target="#modalDaftar"
-                                    data-id="<?= $pkg['id_package'] ?>"
-                                    data-name="<?= escape($pkg['name']) ?>"
-                                    data-price="<?= $pkg['price'] ?>"
-                                    data-duration="<?= $pkg['day_duration'] ?>">
+                            <!-- Tombol Daftar — langsung ke checkout -->
+                            <a href="<?= BASE_URL ?>controllers/member/checkout_member.php?id=<?= $pkg['id_package'] ?>"
+                               class="btn fw-bold w-100 <?= $is_featured ? 'btn-warning text-dark' : 'btn-outline-warning' ?>">
                                 <i class="bi bi-cart-plus me-1"></i> Daftar Sekarang
-                            </button>
+                            </a>
 
                         </div>
                     </div>
@@ -100,75 +95,3 @@
     <?php endif; ?>
 
 </div>
-
-<!-- Modal Konfirmasi Daftar -->
-<div class="modal fade" id="modalDaftar" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content bg-dark border border-secondary text-white">
-            <div class="modal-header border-secondary">
-                <h5 class="modal-title fw-bold">Konfirmasi Pendaftaran</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-            <form method="POST" action="<?= BASE_URL ?>actions/register_package.php">
-                <input type="hidden" name="id_package" id="modalPackageId">
-                <div class="modal-body">
-
-                    <!-- Info Paket -->
-                    <div class="p-3 rounded-3 border border-warning border-opacity-25 bg-warning bg-opacity-10 mb-3">
-                        <div class="fw-bold text-warning fs-6" id="modalPackageName"></div>
-                        <div class="small text-white-50 mt-1">
-                            <span id="modalPackageDuration"></span> hari
-                            · Rp <span id="modalPackagePrice"></span>
-                        </div>
-                    </div>
-
-                    <!-- Tanggal Mulai -->
-                    <div class="mb-3">
-                        <label class="form-label text-warning small">Tanggal Mulai</label>
-                        <input type="date" name="start_date" id="startDate"
-                               class="form-control bg-dark text-white border-secondary"
-                               value="<?= date('Y-m-d') ?>" min="<?= date('Y-m-d') ?>" required>
-                    </div>
-
-                    <!-- Metode Pembayaran -->
-                    <div class="mb-3">
-                        <label class="form-label text-warning small">Metode Pembayaran</label>
-                        <select name="payment_method" class="form-select bg-dark text-white border-secondary" required>
-                            <option value="Transfer Bank">Transfer Bank</option>
-                            <option value="Tunai">Tunai</option>
-                            <option value="QRIS">QRIS</option>
-                            <option value="E-Wallet">E-Wallet</option>
-                        </select>
-                    </div>
-
-                    <div class="small text-white-50">
-                        <i class="bi bi-info-circle me-1"></i>
-                        Status pembayaran awal: <strong class="text-warning">Belum Lunas</strong>.
-                        Admin akan konfirmasi pembayaranmu.
-                    </div>
-
-                </div>
-                <div class="modal-footer border-secondary">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-warning text-dark fw-bold">
-                        <i class="bi bi-check-lg me-1"></i> Daftar
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<script>
-// Isi data modal saat tombol daftar diklik
-document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('modalDaftar');
-    modal.addEventListener('show.bs.modal', function (e) {
-        const btn = e.relatedTarget;
-        document.getElementById('modalPackageId').value       = btn.dataset.id;
-        document.getElementById('modalPackageName').textContent    = btn.dataset.name;
-        document.getElementById('modalPackageDuration').textContent = btn.dataset.duration;
-        document.getElementById('modalPackagePrice').textContent   = parseInt(btn.dataset.price).toLocaleString('id-ID');
-    });
-});
-</script>
