@@ -6,12 +6,13 @@ require_once __DIR__ . '/../../models/registration.php';
 require_admin();
 
 try {
-    // Ambil semua data registrations
-    $registrations = getAllRegistrations();
+    // Ambil semua data pendaftaran (sekarang diperlakukan sebagai member)
+    $members = getAllRegistrations();
 
+    // NOTE: this page now serves as the member management screen
     render_layout_admin('admin/registrations_admin_view.php', [
-        'title'         => 'Data Registrations Member — Gymku',
-        'registrations' => $registrations,
+        'title'         => 'Kelola Member — Gymku',
+        'members'       => $members,
     ]);
 
 } catch (PDOException $e) {

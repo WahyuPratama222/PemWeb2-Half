@@ -108,7 +108,7 @@
                         <i class="bi bi-lightning-fill me-2"></i>Aksi Cepat
                     </h6>
                     <div class="d-grid gap-2">
-                        <a href="<?= BASE_URL ?>controllers/admin/members_admin.php"
+                        <a href="<?= BASE_URL ?>controllers/admin/registrations_admin.php"
                             class="btn btn-outline-warning btn-sm text-start text-white">
                             <i class="bi bi-people me-2"></i>Kelola Member
                         </a>

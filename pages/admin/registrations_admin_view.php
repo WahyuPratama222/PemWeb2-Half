@@ -3,9 +3,9 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="text-warning fw-bold mb-0">Data Pendaftaran Member</h4>
+            <h4 class="text-warning fw-bold mb-0">Kelola Member</h4>
             <small class="text-white-50">
-                Total: <?= count($registrations) ?> Pendaftaran
+                Total: <?= count($members) ?> Member
             </small>
         </div>
     </div>
@@ -31,15 +31,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if (empty($registrations)): ?>
+                    <?php if (empty($members)): ?>
                         <tr>
                             <td colspan="10" class="text-center py-4 text-white-50">
                                 <i class="bi bi-inbox fs-4 d-block mb-2"></i>
-                                Belum ada data registrations
+                                Belum ada data member
                             </td>
                         </tr>
                     <?php else: ?>
-                        <?php foreach ($registrations as $reg): ?>
+                        <?php foreach ($members as $reg): ?>
+
                             <?php 
                                 $days_remaining = calculateDaysRemaining($reg['expiry_date']);
                                 $status_class = getStatusBadgeClass($reg['status']);
@@ -107,7 +108,8 @@
             <div class="card bg-secondary bg-opacity-10 border border-secondary text-white">
                 <div class="card-body text-center">
                     <div class="fs-4 fw-bold text-success">
-                        <?= count(array_filter($registrations, fn($r) => $r['status'] === 'active')) ?>
+                        <?= count(array_filter($members, fn($r) => $r['status'] === 'active')) ?>
+
                     </div>
                     <div class="small text-white-50">Membership Aktif</div>
                 </div>
@@ -117,7 +119,8 @@
             <div class="card bg-secondary bg-opacity-10 border border-secondary text-white">
                 <div class="card-body text-center">
                     <div class="fs-4 fw-bold text-danger">
-                        <?= count(array_filter($registrations, fn($r) => $r['status'] === 'expired')) ?>
+                        <?= count(array_filter($members, fn($r) => $r['status'] === 'expired')) ?>
+
                     </div>
                     <div class="small text-white-50">Membership Expired</div>
                 </div>
@@ -127,7 +130,8 @@
             <div class="card bg-secondary bg-opacity-10 border border-secondary text-white">
                 <div class="card-body text-center">
                     <div class="fs-4 fw-bold text-warning">
-                        <?= count(array_filter($registrations, fn($r) => $r['status'] === 'pending')) ?>
+                        <?= count(array_filter($members, fn($r) => $r['status'] === 'pending')) ?>
+
                     </div>
                     <div class="small text-white-50">Membership Pending</div>
                 </div>
@@ -138,13 +142,13 @@
                 <div class="card-body text-center">
                     <div class="fs-4 fw-bold text-info">
                         <?= 
-                            count(array_filter($registrations, fn($r) => $r['status'] === 'active')) +
-                            count(array_filter($registrations, fn($r) => $r['status'] === 'expired')) +
-                            count(array_filter($registrations, fn($r) => $r['status'] === 'pending')) +
-                            count(array_filter($registrations, fn($r) => $r['status'] === 'cancelled'))
+                            count(array_filter($members, fn($r) => $r['status'] === 'active')) +
+                            count(array_filter($members, fn($r) => $r['status'] === 'expired')) +
+                            count(array_filter($members, fn($r) => $r['status'] === 'pending')) +
+                            count(array_filter($members, fn($r) => $r['status'] === 'cancelled'))
                         ?>
                     </div>
-                    <div class="small text-white-50">Total Registrations</div>
+                    <div class="small text-white-50">Total Member</div>
                 </div>
             </div>
         </div>
