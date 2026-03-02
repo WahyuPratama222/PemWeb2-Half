@@ -4,7 +4,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 $menu = [
     ['href' => 'dashboard_admin.php', 'icon' => 'bi-speedometer2', 'label' => 'Dashboard'],
     ['href' => 'members_admin.php', 'icon' => 'bi-people', 'label' => 'Member'],
-    ['href' => 'pendaftaran_admin.php', 'icon' => 'bi-clipboard-check', 'label' => 'Pendaftaran'],
+    ['href' => 'registrations_admin.php', 'icon' => 'bi-clipboard-check', 'label' => 'Registrations'],
     ['href' => 'packages_admin.php', 'icon' => 'bi-tags', 'label' => 'Paket'],
     ['href' => 'payments_admin.php', 'icon' => 'bi-credit-card', 'label' => 'Pembayaran'],
     ['href' => 'attendance_admin.php', 'icon' => 'bi-calendar-check', 'label' => 'Absensi'],
