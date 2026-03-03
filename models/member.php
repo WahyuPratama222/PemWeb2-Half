@@ -4,6 +4,30 @@
  * Ambil semua data registrations dengan detail member & paket
  * Sorted by registration_date (terbaru dulu)
  */
+
+function getPendingPayments(): array
+{
+    global $pdo;
+
+    $stmt = $pdo->prepare("
+        SELECT 
+            py.id_payment,
+            u.name AS member_name,
+            p.name AS package_name,
+            py.amount,
+            py.payment_date
+        FROM payments py
+        JOIN registration r ON py.id_registration = r.id_registration
+        JOIN users u ON r.id_user = u.id_user
+        JOIN packages p ON r.id_package = p.id_package
+        WHERE py.payment_status = 'Belum Lunas'
+        ORDER BY py.payment_date ASC
+        LIMIT 5
+    ");
+
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 function getAllRegistrations(): array
 {
     global $pdo;

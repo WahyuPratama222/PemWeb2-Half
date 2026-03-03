@@ -67,16 +67,7 @@ CREATE TABLE progress (
     FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE
 );
 
--- 7. Tabel Attendance
-CREATE TABLE attendance (
-    id_attendance INT AUTO_INCREMENT PRIMARY KEY,
-    id_user INT NOT NULL,
-    check_in TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    check_out TIMESTAMP NULL,
-    FOREIGN KEY (id_user) REFERENCES users(id_user) ON DELETE CASCADE
-);
-
--- 8. Tabel Dashboard (Disesuaikan dengan kolom yang ada)
+-- 7. Tabel Dashboard (Disesuaikan dengan kolom yang ada)
 CREATE OR REPLACE VIEW dashboard_summary AS
 SELECT
     (SELECT COUNT(*) FROM users WHERE role='Member') AS total_members,
@@ -86,11 +77,5 @@ SELECT
     (SELECT COALESCE(SUM(amount),0) FROM payments WHERE payment_status='Lunas'
         AND DATE(payment_date) = CURDATE()) AS income_today,
     (SELECT COALESCE(SUM(amount),0) FROM payments WHERE payment_status='Lunas'
-        AND YEAR(payment_date)=YEAR(CURDATE()) AND MONTH(payment_date)=MONTH(CURDATE())) AS income_this_month,
-    (SELECT COUNT(*) FROM attendance WHERE DATE(check_in)=CURDATE()) AS checkins_today;
+        AND YEAR(payment_date)=YEAR(CURDATE()) AND MONTH(payment_date)=MONTH(CURDATE())) AS income_this_month;
 
-INSERT INTO packages (name, price, day_duration, status)
-VALUES
-('Paket Basic',    150000, 30, 'Aktif'),
-('Paket Standard', 300000, 60, 'Aktif'),
-('Paket Premium',  500000, 90, 'Aktif');

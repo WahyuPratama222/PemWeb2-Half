@@ -3,10 +3,9 @@
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="text-warning fw-bold mb-0">Pembayaran</h4>
-            <small class="text-white-50">Kelola & konfirmasi pembayaran member</small>
+            <h4 class="text-warning fw-bold mb-0">Data Pembayaran</h4>
+            <small class="text-white-50">Melihat data pembayaran member</small>
         </div>
-        <span class="text-white-50 small"><?= date('d F Y') ?></span>
     </div>
 
     <?php show_flash(); ?>
@@ -14,13 +13,13 @@
     <!-- Stat ringkas -->
     <div class="row g-3 mb-4">
         <?php
-            $total      = count($payments);
-            $belum      = count(array_filter($payments, fn($p) => $p['payment_status'] === 'Belum Lunas'));
-            $lunas      = count(array_filter($payments, fn($p) => $p['payment_status'] === 'Lunas'));
-            $total_nominal = array_sum(array_column(
-                array_filter($payments, fn($p) => $p['payment_status'] === 'Lunas'),
-                'amount'
-            ));
+        $total = count($payments);
+        $belum = count(array_filter($payments, fn($p) => $p['payment_status'] === 'Belum Lunas'));
+        $lunas = count(array_filter($payments, fn($p) => $p['payment_status'] === 'Lunas'));
+        $total_nominal = array_sum(array_column(
+            array_filter($payments, fn($p) => $p['payment_status'] === 'Lunas'),
+            'amount'
+        ));
         ?>
         <div class="col-sm-6 col-xl-3">
             <div class="card bg-secondary bg-opacity-10 border border-secondary text-white">
@@ -68,7 +67,9 @@
                         <i class="bi bi-cash-stack fs-4 text-info"></i>
                     </div>
                     <div>
-                        <div class="fs-4 fw-bold" style="font-size:1rem !important;"><?= format_rupiah($total_nominal) ?></div>
+                        <div class="fs-4 fw-bold" style="font-size:1rem !important;">
+                            <?= format_rupiah($total_nominal) ?>
+                        </div>
                         <div class="small text-white-50">Total Pemasukan</div>
                     </div>
                 </div>
@@ -77,8 +78,9 @@
     </div>
 
     <!-- Tabel -->
+    <!-- List Pembayaran -->
     <div class="card bg-secondary bg-opacity-10 border border-secondary text-white">
-        <div class="card-body p-0">
+        <div class="card-body px-4 py-2">
 
             <?php if (empty($payments)): ?>
                 <div class="text-center py-5 text-white-50">
@@ -86,73 +88,77 @@
                     Belum ada data pembayaran.
                 </div>
             <?php else: ?>
-                <div class="table-responsive">
-                    <table class="table table-dark table-hover table-borderless mb-0 align-middle">
-                        <thead class="border-bottom border-secondary">
-                            <tr class="text-white-50 small">
-                                <th class="px-4 py-3">Member</th>
-                                <th class="py-3">Paket</th>
-                                <th class="py-3">Nominal</th>
-                                <th class="py-3">Metode</th>
-                                <th class="py-3">Tanggal</th>
-                                <th class="py-3">Status</th>
-                                <th class="py-3">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($payments as $p): ?>
-                                <tr>
-                                    <td class="px-4 py-3">
-                                        <div class="fw-semibold small"><?= escape($p['member_name']) ?></div>
-                                        <div class="text-white-50" style="font-size:.75rem;"><?= escape($p['member_email']) ?></div>
-                                    </td>
-                                    <td class="py-3 small"><?= escape($p['package_name']) ?></td>
-                                    <td class="py-3 small fw-bold text-warning"><?= format_rupiah((float)$p['amount']) ?></td>
-                                    <td class="py-3">
-                                        <?php
-                                            $method_icon = match($p['payment_method']) {
-                                                'Transfer Bank' => 'bi-bank',
-                                                'QRIS'          => 'bi-qr-code',
-                                                'E-Wallet'      => 'bi-wallet2',
-                                                'Tunai'         => 'bi-cash',
-                                                default         => 'bi-credit-card',
-                                            };
-                                        ?>
-                                        <span class="small">
-                                            <i class="bi <?= $method_icon ?> me-1"></i>
-                                            <?= escape($p['payment_method']) ?>
-                                        </span>
-                                    </td>
-                                    <td class="py-3 small text-white-50">
-                                        <?= date('d M Y', strtotime($p['payment_date'])) ?>
-                                    </td>
-                                    <td class="py-3">
-                                        <?php if ($p['payment_status'] === 'Lunas'): ?>
-                                            <span class="badge bg-success">Lunas</span>
-                                        <?php else: ?>
-                                            <span class="badge bg-warning text-dark">Belum Lunas</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td class="py-3">
-                                        <?php if ($p['payment_status'] === 'Belum Lunas'): ?>
-                                            <button class="btn btn-success btn-sm"
-                                                onclick="openModal(
-                                                    <?= $p['id_payment'] ?>,
-                                                    '<?= escape($p['member_name']) ?>',
-                                                    '<?= escape($p['package_name']) ?>',
-                                                    '<?= format_rupiah((float)$p['amount']) ?>'
-                                                )">
-                                                <i class="bi bi-check-lg me-1"></i>Konfirmasi
-                                            </button>
-                                        <?php else: ?>
-                                            <span class="text-white-50 small">—</span>
-                                        <?php endif; ?>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table>
-                </div>
+                <?php foreach ($payments as $i => $p): ?>
+                    <?php
+                    $method_icon = match ($p['payment_method']) {
+                        'Transfer Bank' => 'bi-bank',
+                        'QRIS' => 'bi-qr-code',
+                        'E-Wallet' => 'bi-wallet2',
+                        'Tunai' => 'bi-cash',
+                        default => 'bi-credit-card',
+                    };
+                    ?>
+                    <div
+                        class="d-flex align-items-center gap-4 py-3 <?= $i < count($payments) - 1 ? 'border-bottom border-secondary' : '' ?>">
+
+                        <!-- Avatar + Nama -->
+                        <div style="min-width: 200px;" class="d-flex align-items-center gap-2">
+                            <span
+                                class="bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold flex-shrink-0"
+                                style="width:30px;height:30px;font-size:.75rem;">
+                                <?= strtoupper(substr($p['member_name'], 0, 1)) ?>
+                            </span>
+                            <div>
+                                <div class="fw-semibold small"><?= escape($p['member_name']) ?></div>
+                                <div class="text-white-50" style="font-size:.72rem;"><?= escape($p['member_email']) ?></div>
+                            </div>
+                        </div>
+
+                        <!-- Paket -->
+                        <div style="min-width: 130px;">
+                            <span class="badge bg-warning text-dark"><?= escape($p['package_name']) ?></span>
+                        </div>
+
+                        <!-- Nominal -->
+                        <div style="min-width: 110px;">
+                            <span class="small fw-bold text-warning"><?= format_rupiah((float) $p['amount']) ?></span>
+                        </div>
+
+                        <!-- Metode + Tanggal -->
+                        <div class="flex-grow-1">
+                            <div class="small text-white"><i
+                                    class="bi <?= $method_icon ?> me-1"></i><?= escape($p['payment_method']) ?></div>
+                            <div class="text-white-50" style="font-size:.72rem;">
+                                <?= date('d M Y', strtotime($p['payment_date'])) ?></div>
+                        </div>
+
+                        <!-- Status -->
+                        <div style="min-width: 90px;" class="text-center">
+                            <?php if ($p['payment_status'] === 'Lunas'): ?>
+                                <span class="badge bg-success">Lunas</span>
+                            <?php else: ?>
+                                <span class="badge bg-warning text-dark">Belum Lunas</span>
+                            <?php endif; ?>
+                        </div>
+
+                        <!-- Aksi -->
+                        <div style="min-width: 110px;" class="text-end">
+                            <?php if ($p['payment_status'] === 'Belum Lunas'): ?>
+                                <button class="btn btn-success btn-sm" onclick="openModal(
+                                    <?= $p['id_payment'] ?>,
+                                    '<?= escape($p['member_name']) ?>',
+                                    '<?= escape($p['package_name']) ?>',
+                                    '<?= format_rupiah((float) $p['amount']) ?>'
+                                )">
+                                    <i class="bi bi-check-lg me-1"></i>Konfirmasi
+                                </button>
+                            <?php else: ?>
+                                <span class="text-white-50 small">—</span>
+                            <?php endif; ?>
+                        </div>
+
+                    </div>
+                <?php endforeach; ?>
             <?php endif; ?>
 
         </div>
@@ -214,11 +220,11 @@
 </div>
 
 <script>
-function openModal(paymentId, member, paket, nominal) {
-    document.getElementById('modal-payment-id').value = paymentId;
-    document.getElementById('modal-member').textContent  = member;
-    document.getElementById('modal-paket').textContent   = paket;
-    document.getElementById('modal-nominal').textContent = nominal;
-    new bootstrap.Modal(document.getElementById('modalKonfirmasi')).show();
-}
+    function openModal(paymentId, member, paket, nominal) {
+        document.getElementById('modal-payment-id').value = paymentId;
+        document.getElementById('modal-member').textContent = member;
+        document.getElementById('modal-paket').textContent = paket;
+        document.getElementById('modal-nominal').textContent = nominal;
+        new bootstrap.Modal(document.getElementById('modalKonfirmasi')).show();
+    }
 </script>

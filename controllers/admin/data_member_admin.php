@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../core/init.php';
 require_once __DIR__ . '/../../layouts/main.php';
-require_once __DIR__ . '/../../models/registration.php';
+require_once __DIR__ . '/../../models/member.php';
 
 require_admin();
 
@@ -10,8 +10,8 @@ try {
     $members = getAllRegistrations();
 
     // NOTE: this page now serves as the member management screen
-    render_layout_admin('admin/registrations_admin_view.php', [
-        'title'         => 'Kelola Member — Gymku',
+    render_layout_admin('admin/data_member_view.php', [
+        'title'         => 'Data Member — Gymku',
         'members'       => $members,
     ]);
 
