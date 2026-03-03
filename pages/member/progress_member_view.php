@@ -373,7 +373,7 @@
                         <div class="modal-body">
                             <div class="row g-3">
                                 <div class="col-md-4">
-                                    <label class="form-label">Record Date (opsional)</label>
+                                    <label class="form-label">Record Date</label>
                                     <input type="date" name="record_date" class="form-control form-control-sm">
                                     <small class="text-white-50"></small>
                                 </div>
