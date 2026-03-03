@@ -16,7 +16,7 @@
     <!-- Stat Cards -->
     <div class="row g-3 mb-4">
 
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-sm-6 col-xl-4">
             <div class="card bg-secondary bg-opacity-10 border border-secondary text-white h-100">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="p-3 rounded-3 bg-primary bg-opacity-25">
@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-sm-6 col-xl-4">
             <div class="card bg-secondary bg-opacity-10 border border-secondary text-white h-100">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="p-3 rounded-3 bg-success bg-opacity-25">
@@ -44,7 +44,7 @@
             </div>
         </div>
 
-        <div class="col-sm-6 col-xl-3">
+        <div class="col-sm-6 col-xl-4">
             <div class="card bg-secondary bg-opacity-10 border border-secondary text-white h-100">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="p-3 rounded-3 bg-warning bg-opacity-25">
@@ -53,20 +53,6 @@
                     <div>
                         <div class="fs-4 fw-bold"><?= format_rupiah($summary['income_today']) ?></div>
                         <div class="small text-white-50">Pendapatan Hari Ini</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-xl-3">
-            <div class="card bg-secondary bg-opacity-10 border border-secondary text-white h-100">
-                <div class="card-body d-flex align-items-center gap-3">
-                    <div class="p-3 rounded-3 bg-info bg-opacity-25">
-                        <i class="bi bi-box-arrow-in-right fs-4 text-info"></i>
-                    </div>
-                    <div>
-                        <div class="fs-4 fw-bold"><?= $summary['checkins_today'] ?></div>
-                        <div class="small text-white-50">Check-in Hari Ini</div>
                     </div>
                 </div>
             </div>
@@ -86,7 +72,8 @@
                     <div class="d-flex flex-column gap-2">
                         <div class="d-flex justify-content-between border-bottom border-secondary pb-2">
                             <span class="text-white-50 small">Pendapatan</span>
-                            <span class="fw-bold text-warning"><?= format_rupiah($summary['income_this_month']) ?></span>
+                            <span
+                                class="fw-bold text-warning"><?= format_rupiah($summary['income_this_month']) ?></span>
                         </div>
                         <div class="d-flex justify-content-between border-bottom border-secondary pb-2">
                             <span class="text-white-50 small">Paket Tersedia</span>
@@ -105,30 +92,44 @@
             <div class="card bg-secondary bg-opacity-10 border border-secondary text-white h-100">
                 <div class="card-body p-4">
                     <h6 class="text-white-50 mb-3">
-                        <i class="bi bi-lightning-fill me-2"></i>Aksi Cepat
+                        <i class="bi bi-hourglass-split me-2"></i>Pembayaran Pending
                     </h6>
-                    <div class="d-grid gap-2">
-                        <a href="<?= BASE_URL ?>controllers/admin/registrations_admin.php"
-                            class="btn btn-outline-warning btn-sm text-start text-white">
-                            <i class="bi bi-people me-2"></i>Kelola Member
-                        </a>
-                        <a href="<?= BASE_URL ?>controllers/admin/packages_admin.php"
-                            class="btn btn-outline-warning btn-sm text-start text-white">
-                            <i class="bi bi-tags me-2"></i>Kelola Paket
-                        </a>
-                        <a href="<?= BASE_URL ?>controllers/admin/payments_admin.php"
-                            class="btn btn-outline-warning btn-sm text-start text-white">
-                            <i class="bi bi-credit-card me-2"></i>Data Pembayaran
-                        </a>
-                        <a href="<?= BASE_URL ?>controllers/admin/attendance_admin.php"
-                            class="btn btn-outline-warning btn-sm text-start text-white">
-                            <i class="bi bi-calendar-check me-2"></i>Data Absensi
-                        </a>
-                    </div>
+
+                            <?php if (empty($pending_payments)): ?>
+                        <div class="text-center py-3 text-white-50">
+                            <i class="bi bi-check-circle fs-3 d-block mb-2 text-success"></i>
+                            <small>Semua pembayaran sudah lunas</small>
+                        </div>
+                            <?php else: ?>
+                        <div class="d-flex flex-column gap-0">
+                                    <?php foreach ($pending_payments as $i => $pp): ?>
+                                <div
+                                    class="d-flex align-items-center gap-3 py-2 <?= $i < count($pending_payments) - 1 ? 'border-bottom border-secondary' : '' ?>">
+                                    <span
+                                        class="bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold flex-shrink-0"
+                                        style="width:30px;height:30px;font-size:.75rem;">
+                                                <?= strtoupper(substr($pp['member_name'], 0, 1)) ?>
+                                    </span>
+                                    <div class="flex-grow-1">
+                                        <div class="small fw-semibold"><?= escape($pp['member_name']) ?></div>
+                                        <div class="text-white-50" style="font-size:.72rem;"><?= escape($pp['package_name']) ?>
+                                        </div>
+                                    </div>
+                                    <div class="text-warning fw-bold small"><?= format_rupiah((float) $pp['amount']) ?></div>
+                                </div>
+                                    <?php endforeach; ?>
+                        </div>
+                        <div class="mt-3">
+                            <a href="<?= BASE_URL ?>controllers/admin/payments_admin.php"
+                                class="btn btn-outline-warning btn-sm rounded-pill px-3">
+                                <i class="bi bi-arrow-right me-1"></i>Lihat Semua
+                            </a>
+                        </div>
+                            <?php endif; ?>
+
                 </div>
             </div>
         </div>
-
     </div>
 
 </div>

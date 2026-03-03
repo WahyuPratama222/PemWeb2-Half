@@ -2,8 +2,7 @@
 function getProgress(int $id_user): array
 {
     global $pdo;
-
-    $stmt = $pdo->prepare("SELECT * FROM progress WHERE id_user = ? ORDER BY record_date DESC LIMIT 1");
+    $stmt = $pdo->prepare("SELECT * FROM progress WHERE id_user = ? ORDER BY record_date DESC");
     $stmt->execute([$id_user]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -56,15 +55,15 @@ function updateProgress(int $id_progress, int $id_user, array $data): bool
 
     $stmt = $pdo->prepare("
         UPDATE progress SET
-            record_date = :record_date,
-            weight = :weight,
-            height = :height,
-            body_fat = :body_fat,
-            muscle_mass = :muscle_mass,
-            chest = :chest,
-            waist = :waist,
-            biceps = :biceps,
-            thigh = :thigh
+            record_date  = :record_date,
+            weight       = :weight,
+            height       = :height,
+            body_fat     = :body_fat,
+            muscle_mass  = :muscle_mass,
+            chest        = :chest,
+            waist        = :waist,
+            biceps       = :biceps,
+            thigh        = :thigh
         WHERE id_progress = :id_progress AND id_user = :id_user
         LIMIT 1
     ");
@@ -95,22 +94,4 @@ function deleteProgress(int $id_progress, int $id_user): bool
     ");
 
     return $stmt->execute([$id_progress, $id_user]);
-}
-
-function getRecentProgress(int $id_user): array
-{
-    global $pdo;
-
-    // ambil terbaru dulu, lalu kita balik urutannya supaya chart kiri->kanan makin baru
-    $stmt = $pdo->prepare("
-        SELECT *
-        FROM progress
-        WHERE id_user = ?
-        ORDER BY record_date DESC
-        LIMIT 12
-    ");
-    $stmt->execute([$id_user]);
-    $rows = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    return array_reverse($rows); // jadi urut lama -> baru
 }

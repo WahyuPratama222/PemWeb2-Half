@@ -4,8 +4,6 @@ $current_page = basename($_SERVER['PHP_SELF']);
 $menu = [
     ['href' => 'dashboard_member.php', 'icon' => 'bi-house-door', 'label' => 'Dashboard'],
     ['href' => 'packages_member.php', 'icon' => 'bi-tags', 'label' => 'Paket Gym'],
-    ['href' => 'membership_member.php', 'icon' => 'bi-patch-check', 'label' => 'Membership Saya'],
-    ['href' => 'attendance_member.php', 'icon' => 'bi-calendar-check', 'label' => 'Riwayat Absensi'],
     ['href' => 'payments_member.php', 'icon' => 'bi-receipt', 'label' => 'Riwayat Pembayaran'],
     ['href' => 'progress_member.php', 'icon' => 'bi-graph-up-arrow', 'label' => 'Progress Saya'],
 ];

@@ -1,10 +1,14 @@
 <?php
 require_once __DIR__ . '/../../core/init.php';
-require_member();
+require_once __DIR__ . '/../../layouts/main.php';
+require_once __DIR__ . '/../../models/payment.php';
 
-require_once __DIR__ . '/../../models/Payment.php';
+require_member();
 
 $user = current_user();
 $payments = getPaymentHistoryByUserId($user['id_user']);
 
-require_once __DIR__ . '/../../pages/member/payments_member_view.php';
+render_layout_member('member/payments_member_view.php', [
+    'title'    => 'Riwayat Pembayaran — Gymku',
+    'payments' => $payments,
+]);

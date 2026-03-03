@@ -1,14 +1,10 @@
 <?php
 
-/**
- * Ambil data ringkasan dashboard untuk member yang sedang login.
- * Mengembalikan: membership aktif, total check-in, hari tersisa, dll.
- */
 function getMemberDashboardData(int $id_user): array
 {
     global $pdo;
 
-    // Membership aktif milik member ini
+    // Membership aktif
     $stmt = $pdo->prepare("
         SELECT r.*, p.name AS package_name, p.price, p.day_duration
         FROM registration r
@@ -21,42 +17,16 @@ function getMemberDashboardData(int $id_user): array
     $stmt->execute([$id_user]);
     $active_membership = $stmt->fetch();
 
-    // Hitung hari tersisa jika ada membership aktif
+    // Hitung hari tersisa
     $days_remaining = 0;
     if ($active_membership) {
-        $today      = new DateTime();
-        $expiry     = new DateTime($active_membership['expiry_date']);
-        $diff       = $today->diff($expiry);
+        $today  = new DateTime();
+        $expiry = new DateTime($active_membership['expiry_date']);
+        $diff   = $today->diff($expiry);
         $days_remaining = $diff->invert ? 0 : $diff->days;
     }
 
-    // Total check-in bulan ini
-    $stmt = $pdo->prepare("
-        SELECT COUNT(*) AS total
-        FROM attendance
-        WHERE id_user = ?
-          AND MONTH(check_in) = MONTH(CURDATE())
-          AND YEAR(check_in) = YEAR(CURDATE())
-    ");
-    $stmt->execute([$id_user]);
-    $checkins_this_month = (int) $stmt->fetchColumn();
-
-    // Total check-in keseluruhan
-    $stmt = $pdo->prepare("SELECT COUNT(*) FROM attendance WHERE id_user = ?");
-    $stmt->execute([$id_user]);
-    $total_checkins = (int) $stmt->fetchColumn();
-
-    // Riwayat check-in terbaru (5 terakhir)
-    $stmt = $pdo->prepare("
-        SELECT * FROM attendance
-        WHERE id_user = ?
-        ORDER BY check_in DESC
-        LIMIT 5
-    ");
-    $stmt->execute([$id_user]);
-    $recent_attendance = $stmt->fetchAll();
-
-    // Semua riwayat pendaftaran member
+    // Semua riwayat pendaftaran
     $stmt = $pdo->prepare("
         SELECT r.*, p.name AS package_name, p.price
         FROM registration r
@@ -83,17 +53,11 @@ function getMemberDashboardData(int $id_user): array
     return compact(
         'active_membership',
         'days_remaining',
-        'checkins_this_month',
-        'total_checkins',
-        'recent_attendance',
         'all_registrations',
         'recent_payments'
     );
 }
 
-/**
- * Ambil semua paket yang aktif untuk ditawarkan ke member.
- */
 function getActivePackages(): array
 {
     global $pdo;
