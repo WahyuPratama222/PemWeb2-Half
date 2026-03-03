@@ -13,6 +13,156 @@
 
     <?php show_flash(); ?>
 
+    <?php
+    $preset = $preset ?? 'all';
+
+    $targetDate = null;
+    $now = new DateTime(date('Y-m-d'));
+
+    switch ($preset) {
+    case 'week':    $targetDate = (clone $now)->modify('-7 days'); break;
+    case 'month':   $targetDate = (clone $now)->modify('-1 month'); break;
+    case 'quarter': $targetDate = (clone $now)->modify('-3 months'); break;
+    case 'year':    $targetDate = (clone $now)->modify('-1 year'); break;
+    case 'all':
+    default:        $targetDate = null; break;
+    }
+
+    $latest = null;
+    $baseline = null;
+    $baseline_is_nearest = false;
+    $baseline_target_str = null;
+
+    if (!empty($rows)) {
+    $latest = $rows[0];
+
+    if ($preset === 'all') {
+        $baseline = $rows[count($rows) - 1];
+    } else {
+        $baseline_target_str = $targetDate ? $targetDate->format('Y-m-d') : null;
+
+        foreach ($rows as $r) {
+        $rd = $r['record_date'] ?? null;
+        if (!$rd) continue;
+
+        if ($rd <= $baseline_target_str) {
+            $baseline = $r;
+            break;
+        }
+        }
+
+        if (!$baseline) {
+        $baseline = $rows[count($rows) - 1];
+        $baseline_is_nearest = true;
+        } else {
+        $baseline_is_nearest = ($baseline['record_date'] !== $baseline_target_str);
+        }
+    }
+    }
+
+    $delta = function($new, $old) {
+    if ($new === '' || $new === null || $old === '' || $old === null) return null;
+    return (float)$new - (float)$old;
+    };
+
+    $fmtDelta = function($d, $unit) {
+    if ($d === null) return '-';
+
+    $abs = abs((float)$d);
+    $isInt = (abs($abs - round($abs)) < 0.00001);
+    $num = $isInt ? (string)(int)round($abs) : number_format($abs, 2);
+
+    if ($d > 0) $sign = '+';
+    elseif ($d < 0) $sign = '-';
+    else $sign = '';
+
+    return $sign . $num . ' ' . $unit;
+    };
+
+    $metrics = [
+    ['key' => 'weight',      'label' => 'Weight',      'unit' => 'kg', '%border' => 'warning'],
+    ['key' => 'height',      'label' => 'Height',      'unit' => 'cm', '%border' => 'info'],
+    ['key' => 'body_fat',    'label' => 'Body Fat',    'unit' => '%',  '%border' => 'primary'],
+    ['key' => 'muscle_mass', 'label' => 'Muscle Mass', 'unit' => 'kg', '%border' => 'success'],
+    ['key' => 'chest',       'label' => 'Chest',       'unit' => 'cm', '%border' => 'light'],
+    ['key' => 'waist',       'label' => 'Waist',       'unit' => 'cm', '%border' => 'secondary'],
+    ['key' => 'biceps',      'label' => 'Biceps',      'unit' => 'cm', '%border' => 'danger'],
+    ['key' => 'thigh',       'label' => 'Thigh',       'unit' => 'cm', '%border' => 'warning'],
+    ];
+
+    $presetLabel = [
+    'week' => 'Week',
+    'month' => 'Month',
+    'quarter' => 'Quarter',
+    'year' => 'Year',
+    'all' => 'All time',
+    ][$preset] ?? 'All time';
+    ?>
+
+
+    <?php if (!empty($rows) && $latest && $baseline): ?>
+        <div class="card bg-secondary bg-opacity-10 border border-secondary text-white mb-3">
+            <div class="card-body py-3">
+
+                <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                    <div>
+                    <div class="fw-semibold text-warning">Perkembangan Progress</div>
+                    <div class="small text-white-50">
+                        <strong><?= escape($baseline['record_date'] ?? '-') ?></strong>
+                        &nbsp;→&nbsp;
+                        <strong><?= escape($latest['record_date'] ?? '-') ?></strong>
+                    </div>
+                    </div>
+
+                    <form method="POST" action="" class="m-0 d-flex align-items-center gap-2">
+                    <input type="hidden" name="action" value="set_compare_preset">
+                    <div class="small text-white-50 d-none d-md-block">Bandingkan:</div>
+                    <select name="preset" class="form-select form-select-sm bg-dark text-light border-secondary"
+                            onchange="this.form.submit()">
+                        <option value="week"    <?= ($preset==='week') ? 'selected' : '' ?>>Week</option>
+                        <option value="month"   <?= ($preset==='month') ? 'selected' : '' ?>>Month</option>
+                        <option value="quarter" <?= ($preset==='quarter') ? 'selected' : '' ?>>Quarter</option>
+                        <option value="year"    <?= ($preset==='year') ? 'selected' : '' ?>>Year</option>
+                        <option value="all"     <?= ($preset==='all') ? 'selected' : '' ?>>All time</option>
+                    </select>
+                </div>
+
+                <div class="row g-3">
+                    <?php foreach ($metrics as $m): ?>
+                    <?php
+                        $key = $m['key'];
+                        $d = $delta($latest[$key] ?? null, $baseline[$key] ?? null);
+                        $text = $fmtDelta($d, $m['unit']);
+
+                        $textClass = 'text-light';
+                        if ($d !== null) {
+                        if ($d > 0) $textClass = 'text-success';
+                        elseif ($d < 0) $textClass = 'text-danger';
+                        }
+                    ?>
+
+                    <div class="col-6 col-md-3">
+                        <div class="text-center">
+                        <div class="fw-semibold mb-1"><?= escape($m['label']) ?></div>
+
+                        <div class="d-flex align-items-center justify-content-center rounded-circle border border-warning"
+                            style="width:92px;height:92px;margin:0 auto;border-width:2px !important;">
+                            <div class="fw-bold <?= $textClass ?>">
+                            <?= $text ?>
+                            </div>
+                        </div>
+
+                        <div class="small text-white-50 mt-1">
+                            <?= escape($baseline[$key] ?? '-') ?> → <?= escape($latest[$key] ?? '-') ?>
+                        </div>
+                        </div>
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+            </div>
+        </div>
+    <?php endif; ?>
+
     <div class="card bg-secondary bg-opacity-10 border border-secondary text-white h-100">
         <div class="table-responsive">
             <table class="table table-hover table-dark align-middle mb-0">
@@ -27,6 +177,7 @@
                         <th>Waist (cm)</th>
                         <th>Biceps (cm)</th>
                         <th>Thigh (cm)</th>
+                        <th></th>
                     </tr>
                 </thead>
 
@@ -39,7 +190,18 @@
                         </tr>
                     <?php else: ?>
                         <?php $latestRow = $rows[0] ?? null; ?>
-                        <?php foreach ($rows as $r): ?>
+                        <?php $displayRows = $rows;
+                            if (empty($show_all)) {
+                                $displayRows = array_slice($rows, 0, 1); // hanya teratas
+                            }
+                        ?>
+                        <?php if (!empty($rows)): ?>
+                            <div class="m-2 text-white-50 small">
+                                Menampilkan <?= empty($show_all) ? 1 : count($rows) ?> dari <?= count($rows) ?> data.
+                            </div>
+                        <?php endif; ?>
+
+                        <?php foreach ($displayRows as $r): ?>
                             <tr>
                                 <td><?= escape($r['record_date'] ?? '') ?></td>
                                 <td><?= escape($r['weight'] ?? '') ?></td>
@@ -50,7 +212,128 @@
                                 <td><?= escape($r['waist'] ?? '') ?></td>
                                 <td><?= escape($r['biceps'] ?? '') ?></td>
                                 <td><?= escape($r['thigh'] ?? '') ?></td>
+                                <td class="text-end">
+                                    <div class="d-inline-flex gap-2">
+                                        <button type="button" class="btn btn-outline-warning btn-sm fw-semibold"
+                                            data-bs-toggle="modal" data-bs-target="#modalEditProgress<?= (int)$r['id_progress'] ?>">
+                                        Edit
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger btn-sm fw-semibold"
+                                            data-bs-toggle="modal" data-bs-target="#modalDeleteProgress<?= (int)$r['id_progress'] ?>">
+                                        Delete
+                                        </button>
+                                    </div>
+                                </td>
                             </tr>
+
+                            <?php $pid = (int)($r['id_progress'] ?? 0); ?>
+                                <div class="modal fade" id="modalEditProgress<?= $pid ?>" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg modal-dialog-centered">
+                                        <div class="modal-content bg-dark text-light" style="border-radius:14px;">
+                                            <div class="modal-header border-secondary">
+                                                <h5 class="modal-title fw-bold">Edit Progress</h5>
+                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <form method="POST" action="">
+                                                <input type="hidden" name="action" value="update_progress">
+                                                <input type="hidden" name="id_progress" value="<?= $pid ?>">
+
+                                                <div class="modal-body">
+                                                    <div class="row g-3">
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Record Date</label>
+                                                            <input type="date" name="record_date" class="form-control form-control-sm"
+                                                            value="<?= escape($r['record_date'] ?? '') ?>">
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Weight (kg)</label>
+                                                            <input type="number" step="0.01" name="weight" class="form-control form-control-sm"
+                                                            value="<?= escape($r['weight'] ?? '') ?>">
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Height (cm)</label>
+                                                            <input type="number" step="0.01" name="height" class="form-control form-control-sm"
+                                                            value="<?= escape($r['height'] ?? '') ?>">
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Body Fat (%)</label>
+                                                            <input type="number" step="0.01" name="body_fat" class="form-control form-control-sm"
+                                                            value="<?= escape($r['body_fat'] ?? '') ?>">
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Muscle Mass (kg)</label>
+                                                            <input type="number" step="0.01" name="muscle_mass" class="form-control form-control-sm"
+                                                            value="<?= escape($r['muscle_mass'] ?? '') ?>">
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Chest (cm)</label>
+                                                            <input type="number" step="0.01" name="chest" class="form-control form-control-sm"
+                                                            value="<?= escape($r['chest'] ?? '') ?>">
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Waist (cm)</label>
+                                                            <input type="number" step="0.01" name="waist" class="form-control form-control-sm"
+                                                            value="<?= escape($r['waist'] ?? '') ?>">
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Biceps (cm)</label>
+                                                            <input type="number" step="0.01" name="biceps" class="form-control form-control-sm"
+                                                                value="<?= escape($r['biceps'] ?? '') ?>">
+                                                        </div>
+
+                                                        <div class="col-md-4">
+                                                            <label class="form-label">Thigh (cm)</label>
+                                                            <input type="number" step="0.01" name="thigh" class="form-control form-control-sm"
+                                                                value="<?= escape($r['thigh'] ?? '') ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="modal-footer border-secondary">
+                                                    <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-warning btn-sm fw-semibold">Update</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="modal fade" id="modalDeleteProgress<?= $pid ?>" tabindex="-1" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content bg-dark text-light" style="border-radius:14px;">
+                                            <div class="modal-header border-secondary">
+                                                <h5 class="modal-title fw-bold text-danger">Hapus Progress</h5>
+                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+
+                                            <form method="POST" action="">
+                                                <input type="hidden" name="action" value="delete_progress">
+                                                <input type="hidden" name="id_progress" value="<?= $pid ?>">
+
+                                                <div class="modal-body">
+                                                    <p class="mb-2">Yakin mau hapus progress tanggal:</p>
+                                                    <div class="p-2 bg-secondary bg-opacity-25 rounded">
+                                                        <strong><?= escape($r['record_date'] ?? '') ?></strong>
+                                                    </div>
+                                                    <small class="text-white-50 d-block mt-2">Aksi ini tidak bisa dibatalkan.</small>
+                                                </div>
+
+                                                <div class="modal-footer border-secondary">
+                                                    <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-danger btn-sm fw-semibold">Hapus</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
                         <?php endforeach; ?>
                     <?php endif; ?>
                 </tbody>
@@ -64,326 +347,87 @@
             + Tambah Progress
         </button>
 
-        <div class="d-flex ms-auto gap-2">
-            <button class="btn btn-outline-warning btn-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#modalEditProgress">
-                Edit
-            </button>
-
-            <button class="btn btn-outline-danger btn-sm fw-semibold" data-bs-toggle="modal" data-bs-target="#modalDeleteProgress">
-                Delete
-            </button>
-        </div>
+        <?php if (!empty($rows)): ?>
+            <form method="POST" action="" class="mx-4">
+                <input type="hidden" name="action" value="toggle_progress_show">
+                <button type="submit" class="btn btn-outline-light btn-sm fw-semibold">
+                    <?= !empty($show_all) ? 'Tampilkan Lebih Sedikit' : 'Tampilkan Lebih Banyak' ?>
+                </button>
+            </form>
+        <?php endif; ?>
     </div>
 
 
 
     <div class="modal fade" id="modalAddProgress" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
-        <div class="modal-content bg-dark text-light" style="border-radius:14px;">
-            <div class="modal-header border-secondary">
-            <h5 class="modal-title fw-bold">Tambah Progress</h5>
-            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-
-            <form method="POST" action="">
-            <input type="hidden" name="action" value="create_progress">
-
-            <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label">Record Date (opsional)</label>
-                        <input type="date" name="record_date" class="form-control form-control-sm">
-                        <small class="text-white-50"></small>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Weight (kg)</label>
-                        <input type="number" step="0.01" name="weight" class="form-control form-control-sm">
-                        <small class="text-white-50"></small>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Height (cm)</label>
-                        <input type="number" step="0.01" name="height" class="form-control form-control-sm">
-                        <small class="text-white-50"></small>
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Body Fat (%)</label>
-                        <input type="number" step="0.01" name="body_fat" class="form-control form-control-sm">
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Muscle Mass (kg)</label>
-                        <input type="number" step="0.01" name="muscle_mass" class="form-control form-control-sm">
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Chest (cm)</label>
-                        <input type="number" step="0.01" name="chest" class="form-control form-control-sm">
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Waist (cm)</label>
-                        <input type="number" step="0.01" name="waist" class="form-control form-control-sm">
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Biceps (cm)</label>
-                        <input type="number" step="0.01" name="biceps" class="form-control form-control-sm">
-                    </div>
-
-                    <div class="col-md-4">
-                        <label class="form-label">Thigh (cm)</label>
-                        <input type="number" step="0.01" name="thigh" class="form-control form-control-sm">
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="modal-footer border-secondary">
-                <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-warning btn-sm fw-semibold">Simpan</button>
-            </div>
-            </form>
-
-            
-        </div>
-        </div>
-    </div>
-
-    <?php if ($latestRow): ?>
-        <div class="modal fade" id="modalEditProgress" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content bg-dark text-light" style="border-radius:14px;">
-            <div class="modal-header border-secondary">
-                <h5 class="modal-title fw-bold">Edit Progress Terbaru</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-
-            <form method="POST" action="">
-                <input type="hidden" name="action" value="update_progress">
-                <input type="hidden" name="id_progress" value="<?= escape($latestRow['id_progress']) ?>">
-
-                <div class="modal-body">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                    <label class="form-label">Record Date</label>
-                    <input type="date" name="record_date" class="form-control form-control-sm"
-                            value="<?= escape($latestRow['record_date'] ?? '') ?>">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title fw-bold">Tambah Progress</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
-                    <div class="col-md-4">
-                    <label class="form-label">Weight</label>
-                    <input type="number" step="0.01" name="weight" class="form-control form-control-sm"
-                            value="<?= escape($latestRow['weight'] ?? '') ?>">
-                    </div>
+                    <form method="POST" action="">
+                        <input type="hidden" name="action" value="create_progress">
 
-                    <div class="col-md-4">
-                    <label class="form-label">Height</label>
-                    <input type="number" step="0.01" name="height" class="form-control form-control-sm"
-                            value="<?= escape($latestRow['height'] ?? '') ?>">
-                    </div>
+                        <div class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label">Record Date (opsional)</label>
+                                    <input type="date" name="record_date" class="form-control form-control-sm">
+                                    <small class="text-white-50"></small>
+                                </div>
 
-                    <div class="col-md-4">
-                    <label class="form-label">Body Fat</label>
-                    <input type="number" step="0.01" name="body_fat" class="form-control form-control-sm"
-                            value="<?= escape($latestRow['body_fat'] ?? '') ?>">
-                    </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Weight (kg)</label>
+                                    <input type="number" step="0.01" name="weight" class="form-control form-control-sm">
+                                    <small class="text-white-50"></small>
+                                </div>
 
-                    <div class="col-md-4">
-                    <label class="form-label">Muscle Mass</label>
-                    <input type="number" step="0.01" name="muscle_mass" class="form-control form-control-sm"
-                            value="<?= escape($latestRow['muscle_mass'] ?? '') ?>">
-                    </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Height (cm)</label>
+                                    <input type="number" step="0.01" name="height" class="form-control form-control-sm">
+                                    <small class="text-white-50"></small>
+                                </div>
 
-                    <div class="col-md-4">
-                    <label class="form-label">Chest</label>
-                    <input type="number" step="0.01" name="chest" class="form-control form-control-sm"
-                            value="<?= escape($latestRow['chest'] ?? '') ?>">
-                    </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Body Fat (%)</label>
+                                    <input type="number" step="0.01" name="body_fat" class="form-control form-control-sm">
+                                </div>
 
-                    <div class="col-md-4">
-                    <label class="form-label">Waist</label>
-                    <input type="number" step="0.01" name="waist" class="form-control form-control-sm"
-                            value="<?= escape($latestRow['waist'] ?? '') ?>">
-                    </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Muscle Mass (kg)</label>
+                                    <input type="number" step="0.01" name="muscle_mass" class="form-control form-control-sm">
+                                </div>
 
-                    <div class="col-md-4">
-                    <label class="form-label">Biceps</label>
-                    <input type="number" step="0.01" name="biceps" class="form-control form-control-sm"
-                            value="<?= escape($latestRow['biceps'] ?? '') ?>">
-                    </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Chest (cm)</label>
+                                    <input type="number" step="0.01" name="chest" class="form-control form-control-sm">
+                                </div>
 
-                    <div class="col-md-4">
-                    <label class="form-label">Thigh</label>
-                    <input type="number" step="0.01" name="thigh" class="form-control form-control-sm"
-                            value="<?= escape($latestRow['thigh'] ?? '') ?>">
-                    </div>
-                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label">Waist (cm)</label>
+                                    <input type="number" step="0.01" name="waist" class="form-control form-control-sm">
+                                </div>
 
-                </div>
-                <div class="modal-footer border-secondary">
-                <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Batal</button>
-                <button type="submit" class="btn btn-warning btn-sm fw-semibold">Simpan Perubahan</button>
-                </div>
-            </form>
+                                <div class="col-md-4">
+                                    <label class="form-label">Biceps (cm)</label>
+                                    <input type="number" step="0.01" name="biceps" class="form-control form-control-sm">
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label class="form-label">Thigh (cm)</label>
+                                    <input type="number" step="0.01" name="thigh" class="form-control form-control-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="modal-footer border-secondary">
+                            <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-warning btn-sm fw-semibold">Simpan</button>
+                        </div>
+                    </form>      
             </div>
         </div>
-        </div>
-    <?php endif; ?>
-
-    <?php if ($latestRow): ?>
-        <div class="modal fade" id="modalDeleteProgress" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content bg-dark text-light" style="border-radius:14px;">
-            <div class="modal-header border-secondary">
-                <h5 class="modal-title fw-bold text-danger">Hapus Progress Terbaru</h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
-            </div>
-
-            <div class="modal-body">
-                Kamu yakin mau menghapus progress tanggal terbaru
-                <div class="text-white-50 small mt-2">Aksi ini tidak bisa dibatalkan.</div>
-            </div>
-
-            <div class="modal-footer border-secondary">
-                <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Batal</button>
-
-                <form method="POST" action="" class="m-0">
-                <input type="hidden" name="action" value="delete_progress">
-                <input type="hidden" name="id_progress" value="<?= escape($latestRow['id_progress']) ?>">
-                <button type="submit" class="btn btn-danger btn-sm fw-semibold">Ya, Hapus</button>
-                </form>
-            </div>
-            </div>
-        </div>
-        </div>
-    <?php endif; ?>
-
-    <div class="card card-dark mt-3 p-3">
-        <div class="d-flex flex-wrap gap-2 align-items-center mb-2">
-            <div>
-            <h6 class="mb-0 text-warning fw-bold">Grafik Progress</h6>
-            <small class="text-dark-50">Pilih data yang ingin ditampilkan</small>
-            </div>
-
-            <div class="ms-auto d-flex gap-2 align-items-center mx-3">
-            <select id="metricSelect" class="form-select form-select-sm" style="width: 220px;">
-                <option value="weight" data-unit="kg">Weight (kg)</option>
-                <option value="height" data-unit="cm">Height (cm)</option>
-                <option value="body_fat" data-unit="%">Body Fat (%)</option>
-                <option value="muscle_mass" data-unit="kg">Muscle Mass (kg)</option>
-                <option value="chest" data-unit="cm">Chest (cm)</option>
-                <option value="waist" data-unit="cm">Waist (cm)</option>
-                <option value="biceps" data-unit="cm">Biceps (cm)</option>
-                <option value="thigh" data-unit="cm">Thigh (cm)</option>
-            </select>
-            </div>
-        </div>
-
-        <div style="height: 320px;">
-            <canvas id="progressChart"></canvas>
-        </div>
-    </div>
-
-<?php
-    $chartLabels = array_map(fn($r) => $r['record_date'] ?? ('#'.$r['id_progress']), $chartRows ?? []);
-
-    $chartSeries = [
-    'weight'      => array_map(fn($r) => $r['weight'] ?? null, $chartRows ?? []),
-    'height'      => array_map(fn($r) => $r['height'] ?? null, $chartRows ?? []),
-    'body_fat'    => array_map(fn($r) => $r['body_fat'] ?? null, $chartRows ?? []),
-    'muscle_mass' => array_map(fn($r) => $r['muscle_mass'] ?? null, $chartRows ?? []),
-    'chest'       => array_map(fn($r) => $r['chest'] ?? null, $chartRows ?? []),
-    'waist'       => array_map(fn($r) => $r['waist'] ?? null, $chartRows ?? []),
-    'biceps'      => array_map(fn($r) => $r['biceps'] ?? null, $chartRows ?? []),
-    'thigh'       => array_map(fn($r) => $r['thigh'] ?? null, $chartRows ?? []),
-    ];
-?>
-<script>
-    window.PROGRESS_CHART = {
-        labels: <?= json_encode($chartLabels) ?>,
-        series: <?= json_encode($chartSeries) ?>
-    };
-</script>
-
-<script>
-    (function () {
-    const data = window.PROGRESS_CHART || { labels: [], series: {} };
-    const ctx = document.getElementById('progressChart');
-    const metricSelect = document.getElementById('metricSelect');
-
-    function toNumberOrNull(x) {
-        if (x === null || x === undefined || x === '') return null;
-        const n = Number(x);
-        return Number.isFinite(n) ? n : null;
-    }
-
-    function buildDataset(metricKey) {
-    const raw = (data.series[metricKey] || []).map(toNumberOrNull);
-    return { values: raw, labelSuffix: '' };
-    }
-
-    function unitOfSelected() {
-        const opt = metricSelect.options[metricSelect.selectedIndex];
-        return opt?.dataset?.unit || '';
-    }
-
-    // chart instance
-    const initialMetric = metricSelect.value;
-    const ds0 = buildDataset(initialMetric);
-
-    const chart = new Chart(ctx, {
-        type: 'line',
-        data: {
-        labels: data.labels,
-        datasets: [{
-            label: initialMetric + ds0.labelSuffix,
-            data: ds0.values,
-            tension: 0.25,
-            spanGaps: true,
-            pointRadius: 3,
-            pointHoverRadius: 5,
-            borderWidth: 2,
-        }]
-        },
-        options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: {
-            legend: { display: true }
-        },
-        scales: {
-            y: {
-            ticks: {
-                callback: function(value) {
-                const u = unitOfSelected();
-                return u ? `${value} ${u}` : value;
-                }
-            }
-            }
-        }
-        }
-    });
-    function refresh() {
-        const metricKey = metricSelect.value;
-        const ds = buildDataset(metricKey);
-
-        chart.data.datasets[0].label = metricKey + ds.labelSuffix;
-        chart.data.datasets[0].data = ds.values;
-        chart.update();
-    }
-
-    metricSelect.addEventListener('change', refresh);
-
-    toggleCompare.addEventListener('click', () => {
-        compareMode = !compareMode;
-        toggleCompare.textContent = `Compare vs previous: ${compareMode ? 'ON' : 'OFF'}`;
-        refresh();
-    });
-    
-    })();
-</script>
-
+    </div>     
 </div>
