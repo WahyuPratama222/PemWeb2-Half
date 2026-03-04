@@ -1,7 +1,7 @@
 <?php
 require_once __DIR__ . '/../../core/init.php';
 require_once __DIR__ . '/../../layouts/main.php';
-require_once __DIR__ . '/../../models/payment.php';
+require_once __DIR__ . '/../../models/Payment.php';
 
 require_member();
 
