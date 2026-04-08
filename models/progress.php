@@ -3,7 +3,6 @@ function getProgress(int $id_user): array
 {
     global $pdo;
     $stmt = $pdo->prepare("SELECT * FROM progress WHERE id_user = ? ORDER BY record_date DESC");
-    $stmt = $pdo->prepare("SELECT * FROM progress WHERE id_user = ? ORDER BY record_date DESC");
     $stmt->execute([$id_user]);
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -62,16 +61,16 @@ function updateProgress(int $id_progress, int $id_user, array $data): bool
 {
     global $pdo;
     $stmt = $pdo->prepare("
-        UPDATE progress SET
-            record_date  = :record_date,
-            weight       = :weight,
-            height       = :height,
-            body_fat     = :body_fat,
-            muscle_mass  = :muscle_mass,
-            chest        = :chest,
-            waist        = :waist,
-            biceps       = :biceps,
-            thigh        = :thigh
+        UPDATE progress
+        SET record_date = :record_date,
+            weight = :weight,
+            height = :height,
+            body_fat = :body_fat,
+            muscle_mass = :muscle_mass,
+            chest = :chest,
+            waist = :waist,
+            biceps = :biceps,
+            thigh = :thigh
         WHERE id_progress = :id_progress AND id_user = :id_user
     ");
 
