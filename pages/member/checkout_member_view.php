@@ -19,7 +19,7 @@
                     </h5>
 
                     <form method="POST"
-                          action="<?= BASE_URL ?>controllers/member/checkout_member.php?id=<?= $id_package ?>"
+                          action="<?= BASE_URL ?>controllers/member/checkout_member.php?id=<?= $id_package ?>&extra_days=<?= $extra_days ?>"
                           id="formCheckout">
 
                         <!-- Tanggal Mulai -->
@@ -118,16 +118,16 @@
 
                     <h5 class="fw-bold text-white mb-1"><?= escape($package['name']) ?></h5>
                     <span class="badge bg-warning text-dark mb-3" style="width:fit-content;">
-                        <?= $package['day_duration'] ?> Hari
+                        <?= $total_days ?> Hari <?= $extra_days > 0 ? '(+'.$extra_days.' Hari)' : '' ?>
                     </span>
 
                     <!-- Harga -->
                     <div class="mb-3">
                         <span class="text-white-50 small">Rp</span>
                         <span class="fs-2 fw-bold text-white">
-                            <?= number_format($package['price'], 0, ',', '.') ?>
+                            <?= number_format($total_price, 0, ',', '.') ?>
                         </span>
-                        <span class="text-white-50 small">/ <?= $package['day_duration'] ?> hari</span>
+                        <span class="text-white-50 small">/ <?= $total_days ?> hari</span>
                     </div>
 
                     <hr class="border-secondary">
@@ -136,7 +136,7 @@
                     <ul class="list-unstyled flex-grow-1 d-flex flex-column gap-2 mb-4">
                         <li class="d-flex align-items-center gap-2 small">
                             <i class="bi bi-check-circle-fill text-warning"></i>
-                            Akses gym selama <?= $package['day_duration'] ?> hari
+                            Akses gym selama <?= $total_days ?> hari
                         </li>
                         <li class="d-flex align-items-center gap-2 small">
                             <i class="bi bi-check-circle-fill text-warning"></i>

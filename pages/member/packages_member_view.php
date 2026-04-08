@@ -81,11 +81,26 @@
                                 <?php endif; ?>
                             </ul>
 
-                            <!-- Tombol Daftar — langsung ke checkout -->
-                            <a href="<?= BASE_URL ?>controllers/member/checkout_member.php?id=<?= $pkg['id_package'] ?>"
-                               class="btn fw-bold w-100 <?= $is_featured ? 'btn-warning text-dark' : 'btn-outline-warning' ?>">
-                                <i class="bi bi-cart-plus me-1"></i> Daftar Sekarang
-                            </a>
+                            <!-- Opsi Tambah Hari & Tombol Daftar -->
+                            <form action="<?= BASE_URL ?>controllers/member/checkout_member.php" method="GET">
+                                <input type="hidden" name="id" value="<?= $pkg['id_package'] ?>">
+                                
+                                <?php $price_per_day = ceil($pkg['price'] / $pkg['day_duration']); ?>
+                                <div class="mb-3 p-3 rounded bg-dark border border-secondary shadow-sm">
+                                    <label class="form-label text-warning small fw-bold mb-1">Tambah Hari (Opsional)</label>
+                                    <div class="d-flex align-items-center gap-2 mb-2">
+                                        <input type="number" name="extra_days" class="form-control form-control-sm bg-secondary bg-opacity-25 text-white border-secondary" min="0" value="0" style="width: 70px;" oninput="updateTotal(this, <?= $pkg['price'] ?>, <?= $price_per_day ?>, 'total_display_<?= $pkg['id_package'] ?>')">
+                                        <small class="text-white-50">+ Rp <?= number_format($price_per_day, 0, ',', '.') ?> /hari</small>
+                                    </div>
+                                    <div class="small fw-bold text-white d-flex justify-content-between align-items-center">
+                                        <span>Total:</span>
+                                        <span id="total_display_<?= $pkg['id_package'] ?>" class="text-info fs-6">Rp <?= number_format($pkg['price'], 0, ',', '.') ?></span>
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn fw-bold w-100 <?= $is_featured ? 'btn-warning text-dark' : 'btn-outline-warning' ?>">
+                                    <i class="bi bi-cart-plus me-1"></i> Daftar Sekarang
+                                </button>
+                            </form>
 
                         </div>
                     </div>
@@ -95,3 +110,15 @@
     <?php endif; ?>
 
 </div>
+
+<script>
+function updateTotal(input, basePrice, pricePerDay, displayId) {
+    let days = parseInt(input.value) || 0;
+    if (days < 0) {
+        days = 0;
+        input.value = 0;
+    }
+    let total = basePrice + (days * pricePerDay);
+    document.getElementById(displayId).innerText = 'Rp ' + total.toLocaleString('id-ID');
+}
+</script>
