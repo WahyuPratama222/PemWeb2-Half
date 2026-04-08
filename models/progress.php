@@ -1,11 +1,4 @@
 <?php
-function getProgress(int $id_user): array
-{
-    global $pdo;
-    $stmt = $pdo->prepare("SELECT * FROM progress WHERE id_user = ? ORDER BY record_date DESC");
-    $stmt->execute([$id_user]);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
 
 function getLastProgress(int $id_user): ?array
 {
@@ -95,3 +88,4 @@ function deleteProgress(int $id_progress, int $id_user): bool
     $stmt = $pdo->prepare("DELETE FROM progress WHERE id_progress = ? AND id_user = ?");
     return $stmt->execute([$id_progress, $id_user]);
 }
+
