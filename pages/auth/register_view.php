@@ -1,23 +1,23 @@
-<div class="container">
+﻿<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
 
             <!-- Logo -->
             <div class="text-center mb-4">
-                <i class="bi bi-trophy-fill text-warning" style="font-size: 2.5rem;"></i>
-                <h4 class="text-white fw-bold mt-2">Buat Akun <span class="text-warning">Gymku</span></h4>
-                <p class="text-white-50 small">Mulai perjalanan fitnesmu hari ini!</p>
+                <i class="bi bi-trophy-fill text-color-2" style="font-size: 2.5rem;"></i>
+                <h4 class="text-color-4 fw-bold mt-2">Buat Akun <span class="text-color-2">Gymku</span></h4>
+                <p class="text-muted-dark small">Mulai perjalanan fitnesmu hari ini!</p>
             </div>
 
             <!-- Card Form -->
-            <div class="card bg-secondary bg-opacity-10 border border-secondary shadow">
+            <div class="card bg-color-1 border border-secondary shadow">
                 <div class="card-body p-4">
 
                     <?php if (!empty($error)): ?>
                         <div class="alert alert-danger alert-dismissible fade show py-2 small" role="alert">
                             <i class="bi bi-exclamation-circle me-1"></i>
                             <?= escape($error) ?>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                         </div>
                     <?php endif; ?>
 
@@ -25,11 +25,11 @@
 
                         <!-- Nama -->
                         <div class="mb-3">
-                            <label class="form-label text-warning small">Nama Lengkap</label>
+                            <label class="form-label text-color-2 small">Nama Lengkap</label>
                             <input
                                 type="text"
                                 name="name"
-                                class="form-control bg-dark text-white border-secondary"
+                                class="form-control bg-color-1 text-color-4 border-secondary"
                                 placeholder="Nama kamu"
                                 value="<?= escape($old['name'] ?? '') ?>"
                                 required autofocus
@@ -38,11 +38,11 @@
 
                         <!-- Email -->
                         <div class="mb-3">
-                            <label class="form-label text-warning small">Email</label>
+                            <label class="form-label text-color-2 small">Email</label>
                             <input
                                 type="email"
                                 name="email"
-                                class="form-control bg-dark text-white border-secondary"
+                                class="form-control bg-color-1 text-color-4 border-secondary"
                                 placeholder="contoh@email.com"
                                 value="<?= escape($old['email'] ?? '') ?>"
                                 required
@@ -51,8 +51,8 @@
 
                         <!-- Jenis Kelamin -->
                         <div class="mb-3">
-                            <label class="form-label text-warning small">Jenis Kelamin</label>
-                            <select name="gender" class="form-select bg-dark text-white border-secondary" required>
+                            <label class="form-label text-color-2 small">Jenis Kelamin</label>
+                            <select name="gender" class="form-select bg-color-1 text-color-4 border-secondary" required>
                                 <option value="" disabled <?= empty($old['gender']) ? 'selected' : '' ?>>Pilih Jenis Kelamin</option>
                                 <option value="Laki-Laki" <?= ($old['gender'] ?? '') === 'Laki-Laki' ? 'selected' : '' ?>>Laki-Laki</option>
                                 <option value="Wanita"    <?= ($old['gender'] ?? '') === 'Wanita'    ? 'selected' : '' ?>>Wanita</option>
@@ -61,13 +61,13 @@
 
                         <!-- Password -->
                         <div class="mb-3">
-                            <label class="form-label text-warning small">Password</label>
+                            <label class="form-label text-color-2 small">Password</label>
                             <div class="input-group">
                                 <input
                                     type="password"
                                     name="password"
                                     id="passwordInput"
-                                    class="form-control bg-dark text-white border-secondary"
+                                    class="form-control bg-color-1 text-color-4 border-secondary"
                                     placeholder="Min. 8 karakter"
                                     required
                                 >
@@ -79,13 +79,13 @@
 
                         <!-- Konfirmasi Password -->
                         <div class="mb-4">
-                            <label class="form-label text-warning small">Konfirmasi Password</label>
+                            <label class="form-label text-color-2 small">Konfirmasi Password</label>
                             <div class="input-group">
                                 <input
                                     type="password"
                                     name="confirm_password"
                                     id="confirmInput"
-                                    class="form-control bg-dark text-white border-secondary"
+                                    class="form-control bg-color-1 text-color-4 border-secondary"
                                     placeholder="Ulangi password"
                                     required
                                 >
@@ -95,7 +95,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-warning fw-bold w-100 text-dark">
+                        <button type="submit" class="btn btn-color-2 fw-bold w-100">
                             Buat Akun
                         </button>
 
@@ -103,9 +103,9 @@
                 </div>
             </div>
 
-            <p class="text-center text-white-50 small mt-3">
+            <p class="text-center text-muted-dark small mt-3">
                 Sudah punya akun?
-                <a href="<?= BASE_URL ?>controllers/auth/login.php" class="text-warning text-decoration-none">Login di sini</a>
+                <a href="<?= BASE_URL ?>controllers/auth/login.php" class="text-color-2 text-decoration-none">Login di sini</a>
             </p>
 
         </div>
@@ -125,3 +125,6 @@ function togglePass(inputId, iconId) {
     }
 }
 </script>
+
+
+

@@ -1,10 +1,10 @@
-<div class="container-fluid py-4">
+﻿<div class="container-fluid py-4">
 
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="text-warning fw-bold mb-0">Data Pembayaran</h4>
-            <small class="text-white-50">Melihat data pembayaran member</small>
+            <h4 class="text-color-2 fw-bold mb-0">Data Pembayaran</h4>
+            <small class="text-muted-dark">Melihat data pembayaran member</small>
         </div>
     </div>
 
@@ -22,55 +22,55 @@
         ));
         ?>
         <div class="col-sm-6 col-xl-3">
-            <div class="card bg-secondary bg-opacity-10 border border-secondary text-white">
+            <div class="card bg-color-1 border border-secondary text-color-4">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="p-3 rounded-3 bg-primary bg-opacity-25">
                         <i class="bi bi-receipt fs-4 text-primary"></i>
                     </div>
                     <div>
                         <div class="fs-4 fw-bold"><?= $total ?></div>
-                        <div class="small text-white-50">Total Transaksi</div>
+                        <div class="small text-muted-dark">Total Transaksi</div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-sm-6 col-xl-3">
-            <div class="card bg-secondary bg-opacity-10 border border-secondary text-white">
+            <div class="card bg-color-1 border border-secondary text-color-4">
                 <div class="card-body d-flex align-items-center gap-3">
-                    <div class="p-3 rounded-3 bg-warning bg-opacity-25">
-                        <i class="bi bi-hourglass-split fs-4 text-warning"></i>
+                    <div class="p-3 rounded-3 bg-color-2 bg-opacity-25">
+                        <i class="bi bi-hourglass-split fs-4 text-color-2"></i>
                     </div>
                     <div>
                         <div class="fs-4 fw-bold"><?= $belum ?></div>
-                        <div class="small text-white-50">Belum Lunas</div>
+                        <div class="small text-muted-dark">Belum Lunas</div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-sm-6 col-xl-3">
-            <div class="card bg-secondary bg-opacity-10 border border-secondary text-white">
+            <div class="card bg-color-1 border border-secondary text-color-4">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="p-3 rounded-3 bg-success bg-opacity-25">
                         <i class="bi bi-check-circle fs-4 text-success"></i>
                     </div>
                     <div>
                         <div class="fs-4 fw-bold"><?= $lunas ?></div>
-                        <div class="small text-white-50">Lunas</div>
+                        <div class="small text-muted-dark">Lunas</div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-sm-6 col-xl-3">
-            <div class="card bg-secondary bg-opacity-10 border border-secondary text-white">
+            <div class="card bg-color-1 border border-secondary text-color-4">
                 <div class="card-body d-flex align-items-center gap-3">
                     <div class="p-3 rounded-3 bg-info bg-opacity-25">
-                        <i class="bi bi-cash-stack fs-4 text-info"></i>
+                        <i class="bi bi-cash-stack fs-4 text-color-3"></i>
                     </div>
                     <div>
                         <div class="fs-4 fw-bold" style="font-size:1rem !important;">
                             <?= format_rupiah($total_nominal) ?>
                         </div>
-                        <div class="small text-white-50">Total Pemasukan</div>
+                        <div class="small text-muted-dark">Total Pemasukan</div>
                     </div>
                 </div>
             </div>
@@ -79,11 +79,11 @@
 
     <!-- Tabel -->
     <!-- List Pembayaran -->
-    <div class="card bg-secondary bg-opacity-10 border border-secondary text-white">
+    <div class="card bg-color-1 border border-secondary text-color-4">
         <div class="card-body px-4 py-2">
 
             <?php if (empty($payments)): ?>
-                <div class="text-center py-5 text-white-50">
+                <div class="text-center py-5 text-muted-dark">
                     <i class="bi bi-receipt fs-1 d-block mb-2"></i>
                     Belum ada data pembayaran.
                 </div>
@@ -104,31 +104,31 @@
                         <!-- Avatar + Nama -->
                         <div style="min-width: 200px;" class="d-flex align-items-center gap-2">
                             <span
-                                class="bg-warning text-dark rounded-circle d-flex align-items-center justify-content-center fw-bold flex-shrink-0"
+                                class="bg-color-2 rounded-circle d-flex align-items-center justify-content-center fw-bold flex-shrink-0" style="color: #fff;"
                                 style="width:30px;height:30px;font-size:.75rem;">
                                 <?= strtoupper(substr($p['member_name'], 0, 1)) ?>
                             </span>
                             <div>
                                 <div class="fw-semibold small"><?= escape($p['member_name']) ?></div>
-                                <div class="text-white-50" style="font-size:.72rem;"><?= escape($p['member_email']) ?></div>
+                                <div class="text-muted-dark" style="font-size:.72rem;"><?= escape($p['member_email']) ?></div>
                             </div>
                         </div>
 
                         <!-- Paket -->
                         <div style="min-width: 130px;">
-                            <span class="badge bg-warning text-dark"><?= escape($p['package_name']) ?></span>
+                            <span class="badge bg-color-2" style="color: #fff;"><?= escape($p['package_name']) ?></span>
                         </div>
 
                         <!-- Nominal -->
                         <div style="min-width: 110px;">
-                            <span class="small fw-bold text-warning"><?= format_rupiah((float) $p['amount']) ?></span>
+                            <span class="small fw-bold text-color-2"><?= format_rupiah((float) $p['amount']) ?></span>
                         </div>
 
                         <!-- Metode + Tanggal -->
                         <div class="flex-grow-1">
-                            <div class="small text-white"><i
+                            <div class="small text-color-4"><i
                                     class="bi <?= $method_icon ?> me-1"></i><?= escape($p['payment_method']) ?></div>
-                            <div class="text-white-50" style="font-size:.72rem;">
+                            <div class="text-muted-dark" style="font-size:.72rem;">
                                 <?= date('d M Y', strtotime($p['payment_date'])) ?></div>
                         </div>
 
@@ -137,7 +137,7 @@
                             <?php if ($p['payment_status'] === 'Lunas'): ?>
                                 <span class="badge bg-success">Lunas</span>
                             <?php else: ?>
-                                <span class="badge bg-warning text-dark">Belum Lunas</span>
+                                <span class="badge bg-color-3" style="color: #fff;">Belum Lunas</span>
                             <?php endif; ?>
                         </div>
 
@@ -153,7 +153,7 @@
                                     <i class="bi bi-check-lg me-1"></i>Konfirmasi
                                 </button>
                             <?php else: ?>
-                                <span class="text-white-50 small">—</span>
+                                <span class="text-muted-dark small">€”</span>
                             <?php endif; ?>
                         </div>
 
@@ -166,41 +166,41 @@
 
 </div>
 
-<!-- ══════════════════════════════ -->
+<!-- •••••••••••••••••••••••••••••• -->
 <!-- Modal Konfirmasi               -->
-<!-- ══════════════════════════════ -->
+<!-- •••••••••••••••••••••••••••••• -->
 <div class="modal fade" id="modalKonfirmasi" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content bg-dark border border-secondary text-white">
+        <div class="modal-content bg-color-1 border border-secondary text-color-4">
 
             <div class="modal-header border-secondary">
                 <h6 class="modal-title fw-bold">
                     <i class="bi bi-check-circle text-success me-2"></i>Konfirmasi Pembayaran
                 </h6>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
 
             <div class="modal-body">
-                <p class="text-white-50 small mb-3">Pastikan bukti pembayaran sudah diverifikasi sebelum konfirmasi.</p>
-                <div class="p-3 rounded-3 bg-secondary bg-opacity-10 border border-secondary d-flex flex-column gap-2">
+                <p class="text-muted-dark small mb-3">Pastikan bukti pembayaran sudah diverifikasi sebelum konfirmasi.</p>
+                <div class="p-3 rounded-3 bg-color-1 border border-secondary d-flex flex-column gap-2">
                     <div class="d-flex justify-content-between">
-                        <span class="text-white-50 small">Member</span>
+                        <span class="text-muted-dark small">Member</span>
                         <span class="small fw-semibold" id="modal-member"></span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span class="text-white-50 small">Paket</span>
+                        <span class="text-muted-dark small">Paket</span>
                         <span class="small fw-semibold" id="modal-paket"></span>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <span class="text-white-50 small">Nominal</span>
-                        <span class="small fw-bold text-warning" id="modal-nominal"></span>
+                        <span class="text-muted-dark small">Nominal</span>
+                        <span class="small fw-bold text-color-2" id="modal-nominal"></span>
                     </div>
                 </div>
                 <div class="mt-3 p-3 rounded-3 bg-success bg-opacity-10 border border-success border-opacity-25">
                     <div class="small text-success">
                         <i class="bi bi-info-circle me-1"></i>
-                        Status pembayaran → <strong>Lunas</strong> &
-                        membership member → <strong>Aktif</strong>
+                        Status pembayaran †’ <strong>Lunas</strong> &
+                        membership member †’ <strong>Aktif</strong>
                     </div>
                 </div>
             </div>
@@ -228,3 +228,6 @@
         new bootstrap.Modal(document.getElementById('modalKonfirmasi')).show();
     }
 </script>
+
+
+

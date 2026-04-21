@@ -1,30 +1,30 @@
-<div class="container-fluid py-4">
+﻿<div class="container-fluid py-4">
 
     <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="text-warning fw-bold mb-0">Paket Gym</h4>
-            <small class="text-white-50">Pilih paket yang sesuai dan mulai latihan sekarang</small>
+            <h4 class="text-color-4 fw-bold mb-0">Paket Gym</h4>
+            <small class="text-muted-dark">Pilih paket yang sesuai dan mulai latihan sekarang</small>
         </div>
     </div>
 
     <?php show_flash(); ?>
 
     <?php if (empty($packages)): ?>
-        <div class="alert alert-warning text-dark-50">Belum ada paket tersedia saat ini.</div>
+        <div class="alert alert-warning text-muted-dark">Belum ada paket tersedia saat ini.</div>
     <?php else: ?>
         <div class="row g-4">
             <?php foreach ($packages as $i => $pkg): ?>
                 <?php $is_featured = $i === 1; ?>
                 <div class="col-md-4">
-                    <div class="card text-white h-100 bg-secondary bg-opacity-10
-                                <?= $is_featured ? 'border border-warning border-2 shadow-lg' : 'border border-secondary' ?>"
+                    <div class="card text-color-4 h-100 bg-color-1
+                                <?= $is_featured ? 'border border-color-2 border-2 shadow-lg' : 'border border-secondary' ?>"
                          style="<?= $is_featured ? 'transform: translateY(-6px);' : '' ?>">
 
                         <?php if ($is_featured): ?>
-                            <div class="text-center py-1 bg-warning rounded-top"
-                                 style="font-size:.7rem; font-weight:800; color:#111;">
-                                ⭐ PALING POPULER
+                            <div class="text-center py-1 bg-color-2 rounded-top"
+                                 style="font-size:.7rem; font-weight:800; color:#fff;">
+                                &#11088; PALING POPULER
                             </div>
                         <?php endif; ?>
 
@@ -33,18 +33,18 @@
                             <!-- Nama + Badge Durasi -->
                             <div class="d-flex align-items-center justify-content-between mb-2">
                                 <h5 class="fw-bold mb-0"><?= escape($pkg['name']) ?></h5>
-                                <span class="badge bg-warning text-dark">
+                                <span class="badge bg-color-3 text-color-4">
                                     <?= $pkg['day_duration'] ?> Hari
                                 </span>
                             </div>
 
                             <!-- Harga -->
                             <div class="mb-3">
-                                <span class="text-white-50 small">Rp</span>
+                                <span class="text-muted-dark small">Rp</span>
                                 <span class="fs-2 fw-bold">
                                     <?= number_format($pkg['price'], 0, ',', '.') ?>
                                 </span>
-                                <span class="text-white-50 small">/ <?= $pkg['day_duration'] ?> hari</span>
+                                <span class="text-muted-dark small">/ <?= $pkg['day_duration'] ?> hari</span>
                             </div>
 
                             <hr class="border-secondary">
@@ -52,30 +52,30 @@
                             <!-- Fitur -->
                             <ul class="list-unstyled flex-grow-1 d-flex flex-column gap-2 mb-4">
                                 <li class="d-flex align-items-center gap-2 small">
-                                    <i class="bi bi-check-circle-fill text-warning"></i>
+                                    <i class="bi bi-check-circle-fill text-color-3"></i>
                                     Akses gym selama <?= $pkg['day_duration'] ?> hari
                                 </li>
                                 <li class="d-flex align-items-center gap-2 small">
-                                    <i class="bi bi-check-circle-fill text-warning"></i>
+                                    <i class="bi bi-check-circle-fill text-color-3"></i>
                                     Semua peralatan tersedia
                                 </li>
                                 <li class="d-flex align-items-center gap-2 small">
-                                    <i class="bi bi-check-circle-fill text-warning"></i>
+                                    <i class="bi bi-check-circle-fill text-color-3"></i>
                                     Loker & ruang ganti
                                 </li>
                                 <?php if ($pkg['day_duration'] >= 60): ?>
                                     <li class="d-flex align-items-center gap-2 small">
-                                        <i class="bi bi-check-circle-fill text-warning"></i>
+                                        <i class="bi bi-check-circle-fill text-color-3"></i>
                                         Konsultasi dengan trainer
                                     </li>
                                 <?php endif; ?>
                                 <?php if ($pkg['day_duration'] >= 90): ?>
                                     <li class="d-flex align-items-center gap-2 small">
-                                        <i class="bi bi-check-circle-fill text-warning"></i>
+                                        <i class="bi bi-check-circle-fill text-color-3"></i>
                                         Program latihan personal
                                     </li>
                                     <li class="d-flex align-items-center gap-2 small">
-                                        <i class="bi bi-check-circle-fill text-warning"></i>
+                                        <i class="bi bi-check-circle-fill text-color-3"></i>
                                         Analisis progress bulanan
                                     </li>
                                 <?php endif; ?>
@@ -86,18 +86,18 @@
                                 <input type="hidden" name="id" value="<?= $pkg['id_package'] ?>">
                                 
                                 <?php $price_per_day = ceil($pkg['price'] / $pkg['day_duration']); ?>
-                                <div class="mb-3 p-3 rounded bg-dark border border-secondary shadow-sm">
-                                    <label class="form-label text-warning small fw-bold mb-1">Tambah Hari (Opsional)</label>
+                                <div class="mb-3 p-3 rounded bg-color-1 border border-secondary shadow-sm">
+                                    <label class="form-label text-color-4 small fw-bold mb-1">Tambah Hari (Opsional)</label>
                                     <div class="d-flex align-items-center gap-2 mb-2">
-                                        <input type="number" name="extra_days" class="form-control form-control-sm bg-secondary bg-opacity-25 text-white border-secondary" min="0" value="0" style="width: 70px;" oninput="updateTotal(this, <?= $pkg['price'] ?>, <?= $price_per_day ?>, 'total_display_<?= $pkg['id_package'] ?>')">
-                                        <small class="text-white-50">+ Rp <?= number_format($price_per_day, 0, ',', '.') ?> /hari</small>
+                                        <input type="number" name="extra_days" class="form-control form-control-sm bg-color-1 bg-opacity-25 text-color-4 border-secondary" min="0" value="0" style="width: 70px;" oninput="updateTotal(this, <?= $pkg['price'] ?>, <?= $price_per_day ?>, 'total_display_<?= $pkg['id_package'] ?>')">
+                                        <small class="text-muted-dark">+ Rp <?= number_format($price_per_day, 0, ',', '.') ?> /hari</small>
                                     </div>
-                                    <div class="small fw-bold text-white d-flex justify-content-between align-items-center">
+                                    <div class="small fw-bold text-color-4 d-flex justify-content-between align-items-center">
                                         <span>Total:</span>
-                                        <span id="total_display_<?= $pkg['id_package'] ?>" class="text-info fs-6">Rp <?= number_format($pkg['price'], 0, ',', '.') ?></span>
+                                        <span id="total_display_<?= $pkg['id_package'] ?>" class="text-color-3 fs-6">Rp <?= number_format($pkg['price'], 0, ',', '.') ?></span>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn fw-bold w-100 <?= $is_featured ? 'btn-warning text-dark' : 'btn-outline-warning' ?>">
+                                <button type="submit" class="btn fw-bold w-100 <?= $is_featured ? 'btn-color-2' : 'btn-outline-color-2' ?>">
                                     <i class="bi bi-cart-plus me-1"></i> Daftar Sekarang
                                 </button>
                             </form>
@@ -122,3 +122,4 @@ function updateTotal(input, basePrice, pricePerDay, displayId) {
     document.getElementById(displayId).innerText = 'Rp ' + total.toLocaleString('id-ID');
 }
 </script>
+

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 
 <head>
@@ -11,7 +11,7 @@
 </head>
 
 <!-- Body -->
-<body class="bg-dark d-flex flex-column" style="min-height: 100vh;">
+<body class="bg-color-1 d-flex flex-column" style="min-height: 100vh;">
     <!-- No Header -->
     <!-- Main Content -->
     <main class="flex-grow-1 d-flex align-items-center justify-content-center">
