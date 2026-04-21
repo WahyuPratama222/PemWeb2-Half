@@ -4,8 +4,82 @@
     box-sizing: border-box;
 }
 
+/* --- Palet 4 Warna Sesuai Gambar Unggahan --- */
+:root {
+    --color-1: #FBF9F1; /* Off-White/Cream (Base/Background) */
+    --color-2: #FFC107; /* Yellow/Gold (Primary) */
+    --color-3: #F59A23; /* Orange (Accent/Secondary) */
+    --color-4: #1D242B; /* Dark Charcoal/Navy (Text/Dark Accent) */
+    
+    /* Bootstrap Compatibility */
+    --primary-color: #FFC107;
+    --secondary-color: #F59A23;
+    --accent-color: #1D242B;
+}
+
+/* Custom Text Color Utilities */
+.text-color-1 { color: var(--color-1) !important; } /* Cream */
+.text-color-2 { color: var(--color-2) !important; } /* Yellow */
+.text-color-3 { color: var(--color-3) !important; } /* Orange */
+.text-color-4 { color: var(--color-4) !important; } /* Charcoal */
+
+/* Custom Background Color Utilities */
+.bg-color-1 { background-color: var(--color-1) !important; color: #1D242B !important; } /* Cream BG -> Dark Text */
+.bg-color-2 { background-color: var(--color-2) !important; color: #1D242B !important; } /* Yellow BG -> Dark Text */
+.bg-color-3 { background-color: var(--color-3) !important; color: #1D242B !important; } /* Orange BG -> Dark Text */
+.bg-color-4 { background-color: var(--color-4) !important; color: #FBF9F1 !important; } /* Charcoal BG -> Light Text */
+
+/* Custom Outline Button Utilities */
+.btn-outline-color-2 { 
+    color: var(--color-2) !important; 
+    border-color: var(--color-2) !important; 
+}
+.btn-outline-color-2:hover { 
+    background-color: var(--color-2) !important; 
+    color: #fff !important; 
+}
+
+.btn-outline-color-3 { 
+    color: var(--color-3) !important; 
+    border-color: var(--color-3) !important; 
+}
+.btn-outline-color-3:hover { 
+    background-color: var(--color-3) !important; 
+    color: #fff !important; 
+}
+
+.btn-outline-color-4 { 
+    color: var(--color-4) !important; 
+    border-color: var(--color-4) !important; 
+}
+.btn-outline-color-4:hover { 
+    background-color: var(--color-4) !important; 
+    color: #fff !important; 
+}
+
+/* Border Utilities */
+.border-color-1 { border-color: var(--color-1) !important; }
+.border-color-2 { border-color: var(--color-2) !important; }
+.border-color-3 { border-color: var(--color-3) !important; }
+.border-color-4 { border-color: var(--color-4) !important; }
+
+/* Solid Button Utilities */
+.btn-color-2 { background-color: var(--color-2) !important; color: #1D242B !important; border-color: var(--color-2) !important; }
+.btn-color-2:hover { background-color: #e0a800 !important; border-color: #e0a800 !important; color: #1D242B !important; }
+
+.btn-color-3 { background-color: var(--color-3) !important; color: #1D242B !important; border-color: var(--color-3) !important; }
+.btn-color-3:hover { background-color: #d6871e !important; border-color: #d6871e !important; }
+
+.btn-color-4 { background-color: var(--color-4) !important; color: #FBF9F1 !important; border-color: var(--color-4) !important; }
+.btn-color-4:hover { background-color: #12161b !important; border-color: #12161b !important; }
+
+/* Badge Utilities */
+.badge-color-2 { background-color: var(--color-2) !important; color: #fff !important; }
+.badge-color-3 { background-color: var(--color-3) !important; color: #fff !important; }
+.badge-color-4 { background-color: var(--color-4) !important; color: #fff !important; }
+
 body {
-    background-color: #212529;
+    background-color: var(--color-1);
     overflow-x: hidden;
     min-height: 100vh;
 
@@ -23,3 +97,164 @@ main {
 footer {
     margin-top: auto; /* backup kalau flex: 1 di main kurang cukup */
 }
+
+/* ==============================================================
+   GLOBAL BOOTSTRAP OVERRIDES (Menerapkan warna ke seluruh page)
+   ============================================================== */
+
+/* Background Global */
+body, .bg-white, .bg-light {
+    background-color: var(--color-1) !important; /* Cream */
+    color: var(--color-4) !important; /* Charcoal text */
+}
+
+/* Text Global */
+.text-dark {
+    color: var(--color-4) !important; /* Charcoal */
+}
+
+.text-black-50 {
+    color: #4A5568 !important; /* Muted charcoal */
+}
+
+/* Replacement class untuk text-black-50 di bg krem */
+.text-muted-dark {
+    color: #5a6372 !important;
+}
+
+/* Warning Colors (Dialihkan ke Kuning dan Orange) */
+.text-warning {
+    color: var(--color-3) !important; /* Orange accent untuk text */
+}
+
+.bg-warning {
+    background-color: var(--color-2) !important; /* Kuning utama */
+    color: var(--color-4) !important; /* Teks harus gelap di atas kuning */
+}
+
+.border-warning {
+    border-color: var(--color-3) !important; /* Orange border for pop */
+}
+
+/* Button Warning Override */
+.btn-warning {
+    background-color: var(--color-2) !important;
+    border-color: var(--color-2) !important;
+    color: var(--color-4) !important;
+}
+
+.btn-outline-warning {
+    color: var(--color-3) !important;
+    border-color: var(--color-3) !important;
+}
+
+.btn-warning:hover, .btn-outline-warning:hover {
+    background-color: var(--color-3) !important; /* Berubah jadi orange saat dihover! */
+    border-color: var(--color-3) !important;
+    color: var(--color-1) !important;
+}
+
+/* Navbar / Header Adjustments */
+.navbar, header {
+    background-color: var(--color-1) !important; /* Cream navbar */
+    border-bottom: 2px solid var(--color-2) !important; /* Garis bawah kuning */
+}
+
+/* Cards Override */
+.card {
+    background-color: rgba(251, 249, 241, 0.9) !important; /* Translucent cream */
+    border-color: rgba(29, 36, 43, 0.12) !important; /* Soft border */
+}
+
+/* ======== Sidebar & Nav Active State ======== */
+.nav-link.bg-color-2 {
+    color: var(--color-4) !important; /* Charcoal teks di atas kuning */
+    font-weight: 700 !important;
+}
+
+.nav-link:not(.bg-color-2):hover {
+    background-color: rgba(255, 193, 7, 0.15) !important; /* Kuning transparan saat hover */
+    color: var(--color-4) !important;
+    border-radius: 6px;
+}
+
+/* ======== Form Controls ======== */
+.form-control, .form-select {
+    background-color: var(--color-1) !important;
+    color: var(--color-4) !important;
+    border-color: rgba(29, 36, 43, 0.2) !important;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--color-2) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25) !important;
+    background-color: var(--color-1) !important;
+    color: var(--color-4) !important;
+}
+
+.form-control::placeholder {
+    color: rgba(29, 36, 43, 0.45) !important;
+}
+
+/* ======== Badge Adjustments ======== */
+.badge.bg-success {
+    background-color: #28a745 !important;
+}
+.badge.bg-color-1 {
+    background-color: rgba(29, 36, 43, 0.1) !important;
+    color: var(--color-4) !important;
+}
+
+/* ======== Alert Warning ======== */
+.alert-warning {
+    background-color: rgba(255, 193, 7, 0.2) !important;
+    border-color: var(--color-2) !important;
+    color: var(--color-4) !important;
+}
+
+/* ======== Tables ======== */
+.table {
+    color: var(--color-4) !important;
+}
+
+.table th {
+    background-color: rgba(255, 193, 7, 0.15) !important;
+    color: var(--color-4) !important;
+    border-color: rgba(29, 36, 43, 0.12) !important;
+}
+
+.table td {
+    border-color: rgba(29, 36, 43, 0.08) !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(255, 193, 7, 0.08) !important;
+}
+
+/* ======== Modal ======== */
+.modal-content {
+    background-color: var(--color-1) !important;
+    color: var(--color-4) !important;
+}
+
+.modal-header, .modal-footer {
+    border-color: rgba(29, 36, 43, 0.12) !important;
+}
+
+/* ======== Input Group Button ======== */
+.btn-outline-secondary {
+    color: var(--color-4) !important;
+    border-color: rgba(29, 36, 43, 0.25) !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: var(--color-3) !important;
+    border-color: var(--color-3) !important;
+    color: var(--color-4) !important;
+}
+
+/* ======== Scrollbar (agar sidebar elegan) ======== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-1); }
+::-webkit-scrollbar-thumb { background: var(--color-2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-3); }

@@ -1,19 +1,19 @@
-<!-- Fungsinya untuk menampilkan halaman yang sedang aktif di navbar -->
+﻿<!-- Fungsinya untuk menampilkan halaman yang sedang aktif di navbar -->
 <?php $current_page = basename($_SERVER['PHP_SELF'], '.php'); ?>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom border-secondary shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-light bg-color-1 border-bottom shadow-sm" style="border-color: #e5e7eb !important;">
     <div class="container">
 
         <!-- Logo -->
-        <div class="navbar-brand fw-bold text-warning">
+        <div class="navbar-brand fw-bold text-color-2">
             <i class="bi bi-trophy-fill me-1"></i>
-            <span class="text-warning">Gymku</span>
+            <span class="text-color-2">Gymku</span>
         </div>
 
         <!-- Tombol toggle untuk mobile -->
-        <button class="navbar-toggler border-secondary" type="button" data-bs-toggle="collapse"
-            data-bs-target="#navbarNav">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarNav" style="border-color: rgba(29,36,43,0.12) !important;">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -23,7 +23,7 @@
 
                 <!-- Tombol Login -->
                 <li class="nav-item">
-                    <a class="nav-link btn btn-outline-warning rounded-pill px-3 <?= $current_page === 'login' ? 'active text-dark' : '' ?>"
+                    <a class="nav-link btn btn-outline-color-2 rounded-pill px-3 <?= $current_page === 'login' ? 'active' : '' ?>"
                         href="<?= BASE_URL ?>controllers/auth/login.php">
                         <i class="bi bi-box-arrow-in-right me-1"></i> Login
                     </a>
@@ -31,7 +31,7 @@
 
                 <!-- Tombol Regist -->
                 <li class="nav-item">
-                    <a class="nav-link btn btn-outline-warning rounded-pill px-3 <?= $current_page === 'regist' ? 'active text-dark' : '' ?>"
+                    <a class="nav-link btn btn-outline-color-2 rounded-pill px-3 <?= $current_page === 'regist' ? 'active' : '' ?>"
                         href="<?= BASE_URL ?>controllers/auth/regist.php">
                         <i class="bi bi-person-plus-fill me-1"></i> Regist
                     </a>

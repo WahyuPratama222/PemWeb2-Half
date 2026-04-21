@@ -1,14 +1,14 @@
-<div class="container-fluid py-4">
+﻿﻿﻿<div class="container-fluid py-4">
 
-    <!-- ── Header ── -->
+    <!-- Header -->
     <div class="d-flex justify-content-between align-items-center mb-4">
         <div>
-            <h4 class="text-warning fw-bold mb-0">Progress Member</h4>
-            <small class="text-white-50">
+            <h4 class="text-color-2 fw-bold mb-0">Progress Member</h4>
+            <small class="text-muted-dark">
                 Lihat semua progressmu disini
             </small>
         </div>
-        <span class="text-white-50"><?= date('d F Y') ?></span>
+        <span class="text-muted-dark"><?= date('d F Y') ?></span>
     </div>
 
     <?php show_flash(); ?>
@@ -100,13 +100,13 @@
     ?>
 
 <?php if (!empty($rows)): ?>
-    <div class="card bg-secondary bg-opacity-10 border border-secondary text-white mb-3">
+    <div class="card bg-color-1 border border-secondary text-color-4 mb-3">
         <div class="card-body py-3">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
-                <div class="fw-semibold text-warning">Grafik Progress</div>
+                <div class="fw-semibold text-color-2">Grafik Progress</div>
                 
                 <div class="d-flex align-items-center gap-2">
-                    <select id="chartMetric" class="form-select form-select-sm bg-dark text-light border-secondary">
+                    <select id="chartMetric" class="form-select form-select-sm bg-color-1 text-color-4 border-secondary">
                         <option value="weight">Weight (kg)</option>
                         <option value="height">Height (cm)</option>
                         <option value="body_fat">Body Fat (%)</option>
@@ -117,7 +117,7 @@
                         <option value="thigh">Thigh (cm)</option>
                     </select>
 
-                    <select id="chartTime" class="form-select form-select-sm bg-dark text-light border-secondary">
+                    <select id="chartTime" class="form-select form-select-sm bg-color-1 text-color-4 border-secondary">
                         <option value="week">Week</option>
                         <option value="month">Month</option>
                         <option value="quarter">Quarter</option>
@@ -135,23 +135,23 @@
     <?php endif; ?>
 
     <?php if (!empty($rows) && $latest && $baseline): ?>
-        <div class="card bg-secondary bg-opacity-10 border border-secondary text-white mb-3">
+        <div class="card bg-color-1 border border-secondary text-color-4 mb-3">
             <div class="card-body py-3">
 
                 <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
                     <div>
-                    <div class="fw-semibold text-warning">Perkembangan Progress</div>
-                    <div class="small text-white-50">
+                    <div class="fw-semibold text-color-2">Perkembangan Progress</div>
+                    <div class="small text-muted-dark">
                         <strong><?= escape($baseline['record_date'] ?? '-') ?></strong>
-                        &nbsp;→&nbsp;
+                         &rarr; 
                         <strong><?= escape($latest['record_date'] ?? '-') ?></strong>
                     </div>
                     </div>
 
                     <form method="POST" action="" class="m-0 d-flex align-items-center gap-2">
                     <input type="hidden" name="action" value="set_compare_preset">
-                    <div class="small text-white-50 d-none d-md-block">Bandingkan:</div>
-                    <select name="preset" class="form-select form-select-sm bg-dark text-light border-secondary"
+                    <div class="small text-muted-dark d-none d-md-block">Bandingkan:</div>
+                    <select name="preset" class="form-select form-select-sm bg-color-1 text-color-4 border-secondary"
                         onchange="this.form.submit()">
                         <option value="week"    <?= ($preset==='week') ? 'selected' : '' ?>>Week</option>
                         <option value="month"   <?= ($preset==='month') ? 'selected' : '' ?>>Month</option>
@@ -169,10 +169,10 @@
                         $d = $delta($latest[$key] ?? null, $baseline[$key] ?? null);
                         $text = $fmtDelta($d, $m['unit']);
 
-                        $textClass = 'text-light';
+                        $textClass = 'text-color-4';
                         if ($d !== null) {
                         if ($d > 0) $textClass = 'text-success';
-                        elseif ($d < 0) $textClass = 'text-danger';
+                        elseif ($d < 0) $textClass = 'text-color-3';
                         }
                     ?>
 
@@ -180,15 +180,15 @@
                         <div class="text-center">
                         <div class="fw-semibold mb-1"><?= escape($m['label']) ?></div>
 
-                        <div class="d-flex align-items-center justify-content-center rounded-circle border border-warning"
-                            style="width:92px;height:92px;margin:0 auto;border-width:2px !important;">
+                        <div class="d-flex align-items-center justify-content-center rounded-circle border"
+                            style="width:92px;height:92px;margin:0 auto;border-width:2px !important; border-color: #F59A23;">
                             <div class="fw-bold <?= $textClass ?>">
                             <?= $text ?>
                             </div>
                         </div>
 
-                        <div class="small text-white-50 mt-1">
-                            <?= escape($baseline[$key] ?? '-') ?> → <?= escape($latest[$key] ?? '-') ?>
+                        <div class="small text-muted-dark mt-1">
+                            <?= escape($baseline[$key] ?? '-') ?>  &rarr;  <?= escape($latest[$key] ?? '-') ?>
                         </div>
                         </div>
                     </div>
@@ -198,9 +198,9 @@
         </div>
     <?php endif; ?>
 
-    <div class="card bg-secondary bg-opacity-10 border border-secondary text-white h-100">
+    <div class="card bg-color-1 border border-secondary text-color-4 h-100">
         <div class="table-responsive">
-            <table class="table table-hover table-dark align-middle mb-0">
+            <table class="table table-hover table-light align-middle mb-0">
                 <thead>
                     <tr>
                         <th>Record Date</th>
@@ -231,7 +231,7 @@
                             }
                         ?>
                         <?php if (!empty($rows)): ?>
-                            <div class="m-2 text-white-50 small">
+                            <div class="m-2 text-muted-dark small">
                                 Menampilkan <?= empty($show_all) ? 1 : count($rows) ?> dari <?= count($rows) ?> data.
                             </div>
                         <?php endif; ?>
@@ -249,11 +249,11 @@
                                 <td><?= escape($r['thigh'] ?? '') ?></td>
                                 <td class="text-end">
                                     <div class="d-inline-flex gap-2">
-                                        <button type="button" class="btn btn-outline-warning btn-sm fw-semibold"
+                                    <button type="button" class="btn btn-outline-color-2 btn-sm fw-semibold"
                                             data-bs-toggle="modal" data-bs-target="#modalEditProgress<?= (int)$r['id_progress'] ?>">
                                         Edit
                                         </button>
-                                        <button type="button" class="btn btn-outline-danger btn-sm fw-semibold"
+                                        <button type="button" class="btn btn-outline-color-3 btn-sm fw-semibold"
                                             data-bs-toggle="modal" data-bs-target="#modalDeleteProgress<?= (int)$r['id_progress'] ?>">
                                         Delete
                                         </button>
@@ -264,10 +264,10 @@
                             <?php $pid = (int)($r['id_progress'] ?? 0); ?>
                                 <div class="modal fade" id="modalEditProgress<?= $pid ?>" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-lg modal-dialog-centered">
-                                        <div class="modal-content bg-dark text-light" style="border-radius:14px;">
+                                        <div class="modal-content bg-color-1 text-color-4" style="border-radius:14px;">
                                             <div class="modal-header border-secondary">
                                                 <h5 class="modal-title fw-bold">Edit Progress</h5>
-                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
 
                                             <form method="POST" action="">
@@ -333,8 +333,8 @@
                                                 </div>
 
                                                 <div class="modal-footer border-secondary">
-                                                    <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-warning btn-sm fw-semibold">Update</button>
+                                                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-color-2 btn-sm fw-semibold">Update</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -343,10 +343,10 @@
 
                                 <div class="modal fade" id="modalDeleteProgress<?= $pid ?>" tabindex="-1" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content bg-dark text-light" style="border-radius:14px;">
+                                        <div class="modal-content bg-color-1 text-color-4" style="border-radius:14px;">
                                             <div class="modal-header border-secondary">
-                                                <h5 class="modal-title fw-bold text-danger">Hapus Progress</h5>
-                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <h5 class="modal-title fw-bold text-color-3">Hapus Progress</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
 
                                             <form method="POST" action="">
@@ -355,15 +355,15 @@
 
                                                 <div class="modal-body">
                                                     <p class="mb-2">Yakin mau hapus progress tanggal:</p>
-                                                    <div class="p-2 bg-secondary bg-opacity-25 rounded">
+                                                    <div class="p-2 bg-color-1 bg-opacity-25 rounded">
                                                         <strong><?= escape($r['record_date'] ?? '') ?></strong>
                                                     </div>
-                                                    <small class="text-white-50 d-block mt-2">Aksi ini tidak bisa dibatalkan.</small>
+                                                    <small class="text-muted-dark d-block mt-2">Aksi ini tidak bisa dibatalkan.</small>
                                                 </div>
 
                                                 <div class="modal-footer border-secondary">
-                                                    <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Batal</button>
-                                                    <button type="submit" class="btn btn-danger btn-sm fw-semibold">Hapus</button>
+                                                    <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal">Batal</button>
+                                                    <button type="submit" class="btn btn-color-3 btn-sm fw-semibold">Hapus</button>
                                                 </div>
                                             </form>
                                         </div>
@@ -377,7 +377,7 @@
     </div>
 
     <div class="d-flex align-items-center mt-3">
-        <button type="button" class="btn btn-warning btn-sm fw-semibold"
+        <button type="button" class="btn btn-color-2 btn-sm fw-semibold"
             data-bs-toggle="modal" data-bs-target="#modalAddProgress">
             + Tambah Progress
         </button>
@@ -385,7 +385,7 @@
         <?php if (!empty($rows)): ?>
             <form method="POST" action="" class="mx-4">
                 <input type="hidden" name="action" value="toggle_progress_show">
-                <button type="submit" class="btn btn-outline-light btn-sm fw-semibold">
+                <button type="submit" class="btn btn-outline-dark btn-sm fw-semibold">
                     <?= !empty($show_all) ? 'Tampilkan Lebih Sedikit' : 'Tampilkan Lebih Banyak' ?>
                 </button>
             </form>
@@ -396,10 +396,10 @@
 
     <div class="modal fade" id="modalAddProgress" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content bg-dark text-light" style="border-radius:14px;">
+            <div class="modal-content bg-color-1 text-color-4" style="border-radius:14px;">
                 <div class="modal-header border-secondary">
                     <h5 class="modal-title fw-bold">Tambah Progress</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
 
                     <form method="POST" action="">
@@ -410,19 +410,19 @@
                                 <div class="col-md-4">
                                     <label class="form-label">Record Date</label>
                                     <input type="date" name="record_date" class="form-control form-control-sm">
-                                    <small class="text-white-50"></small>
+                                    <small class="text-muted-dark"></small>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label class="form-label">Weight (kg)</label>
                                     <input type="number" step="0.01" name="weight" class="form-control form-control-sm">
-                                    <small class="text-white-50"></small>
+                                    <small class="text-muted-dark"></small>
                                 </div>
 
                                 <div class="col-md-4">
                                     <label class="form-label">Height (cm)</label>
                                     <input type="number" step="0.01" name="height" class="form-control form-control-sm">
-                                    <small class="text-white-50"></small>
+                                    <small class="text-muted-dark"></small>
                                 </div>
 
                                 <div class="col-md-4">
@@ -458,8 +458,8 @@
                         </div>
 
                         <div class="modal-footer border-secondary">
-                            <button type="button" class="btn btn-outline-light btn-sm" data-bs-dismiss="modal">Batal</button>
-                            <button type="submit" class="btn btn-warning btn-sm fw-semibold">Simpan</button>
+                            <button type="button" class="btn btn-outline-dark btn-sm" data-bs-dismiss="modal">Batal</button>
+                            <button type="submit" class="btn btn-color-2 btn-sm fw-semibold">Simpan</button>
                         </div>
                     </form>      
             </div>
@@ -543,11 +543,11 @@ function getFilteredData(data, timeScale) {
                 datasets: [{
                     label: metricLabel,
                     data: dataPoints,
-                    borderColor: '#ffc107', // Warna text-warning Bootstrap
-                    backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                    borderColor: '#F59A23', // Warna text-color-2 baru (Biru Elektrik)
+                    backgroundColor: 'rgba(255, 193, 7, 0.15)',
                     borderWidth: 3,
-                    pointBackgroundColor: '#212529',
-                    pointBorderColor: '#ffc107',
+                    pointBackgroundColor: '#ffffff',
+                    pointBorderColor: '#F59A23',
                     pointRadius: 4,
                     pointHoverRadius: 6,
                     fill: true,
@@ -562,17 +562,17 @@ function getFilteredData(data, timeScale) {
                         display: false // Sembunyikan legend utama karena sudah ada judul di dropdown
                     },
                     tooltip: {
-                        theme: 'dark'
+                        theme: 'light'
                     }
                 },
                 scales: {
                     x: {
-                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                        ticks: { color: 'rgba(255, 255, 255, 0.7)' }
+                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        ticks: { color: 'rgba(0, 0, 0, 0.7)' }
                     },
                     y: {
-                        grid: { color: 'rgba(255, 255, 255, 0.1)' },
-                        ticks: { color: 'rgba(255, 255, 255, 0.7)' },
+                        grid: { color: 'rgba(0, 0, 0, 0.1)' },
+                        ticks: { color: 'rgba(0, 0, 0, 0.7)' },
                         // Jangan mulai dari 0 agar fluktuasi grafik terlihat jelas
                         beginAtZero: false 
                     }
@@ -590,3 +590,6 @@ function getFilteredData(data, timeScale) {
 });
 </script>
 </div>
+
+
+

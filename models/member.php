@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 function getPendingPayments(): array
 {
@@ -82,10 +82,10 @@ function getStatusBadgeClass(string $status): string
 {
     return match ($status) {
         'active'    => 'bg-success',
-        'expired'   => 'bg-danger',
-        'pending'   => 'bg-warning text-dark',
-        'cancelled' => 'bg-secondary',
-        default     => 'bg-secondary'
+        'expired'   => 'bg-color-3',
+        'pending'   => 'bg-color-2',
+        'cancelled' => 'bg-color-1',
+        default     => 'bg-color-1'
     };
 }
 

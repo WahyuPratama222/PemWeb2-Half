@@ -89,3 +89,15 @@ function deleteProgress(int $id_progress, int $id_user): bool
     return $stmt->execute([$id_progress, $id_user]);
 }
 
+function getProgress(int $id_user): array
+{
+    global $pdo;
+    $stmt = $pdo->prepare("
+        SELECT *
+        FROM progress
+        WHERE id_user = ?
+        ORDER BY record_date DESC, id_progress DESC
+    ");
+    $stmt->execute([$id_user]);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}

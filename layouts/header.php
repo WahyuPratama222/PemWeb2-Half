@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if (!defined('BASE_URL')) {
     require_once __DIR__ . '/../core/init.php';
 }
@@ -16,7 +16,7 @@ if (!defined('BASE_URL')) {
     <link rel="stylesheet" href="<?= BASE_URL ?>assets/css/style.css?v=<?= time() ?>">
 </head>
 
-<body class="bg-dark">
+<body class="bg-color-1">
     <!-- Header -->
     <?php require_once __DIR__ . '/../components/navbar.php'; ?>
     <main>
