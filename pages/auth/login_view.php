@@ -5,7 +5,7 @@
             <!-- Logo -->
             <div class="text-center mb-4">
                 <i class="bi bi-trophy-fill text-color-2" style="font-size: 2.5rem;"></i>
-                <h4 class="text-color-4 fw-bold mt-2">Masuk ke <span class="text-color-4">Gymku</span></h4>
+                <h4 class="text-color-4 fw-bold mt-2">Masuk ke <span class="text-warning">Gymku</span></h4>
                 <p class="text-muted-dark small">Selamat datang kembali!</p>
             </div>
 
@@ -45,7 +45,7 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-color-4 fw-bold w-100 border-0">
+                        <button type="submit" class="btn btn-warning fw-bold w-100 border-0">
                             Masuk
                         </button>
 
@@ -56,7 +56,7 @@
 
             <p class="text-center text-muted-dark small mt-3">
                 Belum punya akun?
-                <a href="<?= BASE_URL ?>controllers/auth/regist.php" class="text-color-4 text-decoration-none fw-bold">Daftar sekarang</a>
+                <a href="<?= BASE_URL ?>controllers/auth/regist.php" class="text-warning text-decoration-none fw-bold">Daftar sekarang</a>
             </p>
 
         </div>

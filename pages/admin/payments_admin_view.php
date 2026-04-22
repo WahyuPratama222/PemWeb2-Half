@@ -153,7 +153,7 @@
                                     <i class="bi bi-check-lg me-1"></i>Konfirmasi
                                 </button>
                             <?php else: ?>
-                                <span class="text-muted-dark small">€”</span>
+                                <span class="text-muted-dark small">&mdash;</span>
                             <?php endif; ?>
                         </div>
 
