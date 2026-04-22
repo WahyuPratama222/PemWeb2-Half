@@ -13,10 +13,10 @@ INSERT INTO users (name, email, gender, password, role) VALUES
 ('Budi Santoso',  'budi@gmail.com',   'Laki-Laki', '$2y$10$PMqkzslekXi/7phPUwp5i.xXxBTPSz8905xytCgyrw6CVCzMCtoqa', 'Member');
 
 -- 2. Packages
-INSERT INTO packages (name, price, day_duration, status) VALUES
-('Paket Basic',    150000, 30, 'Aktif'),
-('Paket Standard', 300000, 60, 'Aktif'),
-('Paket Premium',  500000, 90, 'Aktif');
+INSERT INTO packages (name, price, day_duration, is_premium, status) VALUES
+('Paket Basic',    150000, 30, FALSE, 'Aktif'),
+('Paket Standard', 300000, 60, FALSE, 'Aktif'),
+('Paket Premium',  500000, 90, TRUE, 'Aktif');
 
 -- 3. Registration
 -- Pak Jokowi: aktif sudah bayar lunas

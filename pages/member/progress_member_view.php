@@ -13,6 +13,13 @@
 
     <?php show_flash(); ?>
 
+    <?php if (!($hasActivePackage ?? false)): ?>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Paket Tidak Aktif!</strong> Anda harus memiliki paket aktif untuk menambahkan progress. Silakan beli paket terlebih dahulu.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+
     <?php
     $preset = $preset ?? 'all';
 
@@ -99,7 +106,7 @@
     ][$preset] ?? 'All time';
     ?>
 
-<?php if (!empty($rows)): ?>
+<?php if (!empty($rows) && ($isPremium ?? false)): ?>
     <div class="card bg-color-1 border border-secondary text-color-4 mb-3">
         <div class="card-body py-3">
             <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
@@ -132,7 +139,12 @@
             </div>
         </div>
     </div>
-    <?php endif; ?>
+<?php elseif (!empty($rows) && !(($isPremium ?? false))): ?>
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <strong>Fitur Premium!</strong> Grafik progress hanya tersedia untuk member dengan paket Premium. Upgrade paket Anda sekarang untuk melihat grafik detail perkembangan Anda.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+<?php endif; ?>
 
     <?php if (!empty($rows) && $latest && $baseline): ?>
         <div class="card bg-color-1 border border-secondary text-color-4 mb-3">

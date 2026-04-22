@@ -21,6 +21,7 @@ CREATE TABLE packages (
     image VARCHAR(100) DEFAULT 'default.jpg',
     price DECIMAL(12, 0) NOT NULL,
     day_duration INT NOT NULL,
+    is_premium BOOLEAN DEFAULT FALSE,
     status ENUM('Aktif', 'Nonaktif') DEFAULT 'Aktif',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
