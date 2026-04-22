@@ -84,7 +84,7 @@
                                         <span class="text-color-4"><?= format_date($m['expiry_date']) ?></span>
                                     </div>
                                 <?php else: ?>
-                                    <div class="text-muted-dark small">€” Tidak ada data membership €”</div>
+                                    <div class="text-muted-dark small">&mdash; Tidak ada data membership &mdash;</div>
                                 <?php endif; ?>
                             </div>
 
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="small text-muted-dark">hari tersisa</div>
                                 <?php else: ?>
-                                    <span class="text-muted-dark small">€”</span>
+                                    <span class="text-muted-dark small">&mdash;</span>
                                 <?php endif; ?>
                             </div>
 
