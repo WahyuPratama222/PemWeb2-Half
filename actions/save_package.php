@@ -22,18 +22,13 @@ if (!in_array($status, ['Aktif', 'Nonaktif'])) {
 if ($id) {
     // UPDATE
     $stmt = $pdo->prepare("
-        UPDATE packages SET name = ?, price = ?, day_duration = ?, status = ?
         WHERE id_package = ?
     ");
-    $stmt->execute([$name, $price, $duration, $status, $id]);
     set_flash('success', 'Paket berhasil diperbarui.');
 } else {
     // INSERT
     $stmt = $pdo->prepare("
-        INSERT INTO packages (name, price, day_duration, status)
-        VALUES (?, ?, ?, ?)
     ");
-    $stmt->execute([$name, $price, $duration, $status]);
     set_flash('success', 'Paket berhasil ditambahkan.');
 }
 

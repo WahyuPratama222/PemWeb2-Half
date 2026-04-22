@@ -29,11 +29,16 @@
                                     <div class="fw-bold fs-6"><?= escape($p['name']) ?></div>
                                     <div class="small text-muted-dark"><?= escape($p['day_duration']) ?> Hari</div>
                                 </div>
-                                <?php if ($p['status'] === 'Aktif'): ?>
-                                    <span class="badge bg-success">Aktif</span>
-                                <?php else: ?>
-                                    <span class="badge bg-color-1">Nonaktif</span>
-                                <?php endif; ?>
+                                <div class="d-flex flex-column gap-2">
+                                    <?php if ((bool)$p['is_premium']): ?>
+                                        <span class="badge bg-warning text-dark">Premium</span>
+                                    <?php endif; ?>
+                                    <?php if ($p['status'] === 'Aktif'): ?>
+                                        <span class="badge bg-success">Aktif</span>
+                                    <?php else: ?>
+                                        <span class="badge bg-color-1">Nonaktif</span>
+                                    <?php endif; ?>
+                                </div>
                             </div>
 
                             <!-- Harga -->
@@ -91,6 +96,14 @@
                                 <option value="Nonaktif">Nonaktif</option>
                             </select>
                         </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="is_premium" id="isPremiumAdd" value="1">
+                                <label class="form-check-label" for="isPremiumAdd">
+                                    Paket Premium
+                                </label>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer border-secondary">
                         <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Batal</button>
@@ -137,6 +150,15 @@
                                     <option value="Nonaktif" <?= $edit_package['status'] === 'Nonaktif' ? 'selected' : '' ?>>
                                         Nonaktif</option>
                                 </select>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="is_premium" id="isPremiumEdit" value="1" 
+                                        <?= (bool)$edit_package['is_premium'] ? 'checked' : '' ?>>
+                                    <label class="form-check-label" for="isPremiumEdit">
+                                        Paket Premium
+                                    </label>
+                                </div>
                             </div>
                         </div>
                         <div class="modal-footer border-secondary">

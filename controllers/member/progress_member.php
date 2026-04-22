@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../core/init.php';
 require_once __DIR__ . '/../../layouts/main.php';
 require_once __DIR__ . '/../../models/progress.php';
+require_once __DIR__ . '/../../models/Payment.php';
 
 require_member();
 $user = current_user();
@@ -35,6 +36,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Create
     if ($action === 'create_progress') {
+
+        // Check if user has active package
+        if (!hasActivePackage((int)$user['id_user'])) {
+            set_flash('danger', 'Anda harus memiliki paket aktif untuk menambahkan progress.');
+            redirect(BASE_URL . 'controllers/member/progress_member.php');
+            exit;
+        }
 
         $last = getLastProgress((int)$user['id_user']);
 
@@ -123,10 +131,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $rows = getProgress((int)$user['id_user']);
+$hasActivePackage = hasActivePackage((int)$user['id_user']);
+$activePackage = getActivePackageByUserId((int)$user['id_user']);
+$isPremium = isActivePackagePremium((int)$user['id_user']);
 
 render_layout_member('member/progress_member_view.php', [
     'title' => 'Progress Member — Gymku',
     'rows' => $rows,
     'show_all' => (bool)$_SESSION['progress_show_all'],
     'preset'  => $_SESSION['compare_preset'],
+    'hasActivePackage' => $hasActivePackage,
+    'activePackage' => $activePackage,
+    'isPremium' => $isPremium,
 ]);
